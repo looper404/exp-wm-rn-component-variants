@@ -1,0 +1,31 @@
+{
+  "name": "@wavemaker/wmx-rn-components",
+  "version": "0.0.0-dev.0",
+  "private": true,
+  "description": "WaveMaker Studio (WMX) widget wrappers and metadata for @wavemaker/rn-components/tabbar.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wavemaker/wm-react-native-tabbar.git"
+  },
+  "license": "MIT",
+  "scripts": {
+    "generate:wmx": "node ./scripts/generate-wmx.js"
+  },
+  "peerDependencies": {
+    "@wavemaker-ai/app-rn-runtime": "*",
+    "react": "*",
+    "react-native": "*",
+    "react-native-safe-area-context": ">=4.0.0",
+    "react-native-svg": "*"
+  },
+  "devDependencies": {
+    "@types/react": "~19.1.0",
+    "@wavemaker/app-rn-runtime": "11.15.2-dev.3",
+    "adm-zip": "^0.5.16",
+    "react": "19.2.3",
+    "react-native": "0.82.1",
+    "react-native-safe-area-context": "^5.4.0",
+    "react-native-svg": "15.12.1",
+    "typescript": "~5.9.2"
+  }
+}
