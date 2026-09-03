@@ -1,0 +1,59 @@
+{
+  "name": "color-shift-tabbar",
+  "displayName": "Color Shift Tabbar",
+  "description": "A plain rounded-rectangle tab bar with five evenly spaced tabs. The active tab carries no pill, bubble, or lift — it is shown purely by tinting its icon and label with the accent colour.",
+  "version": "0.0.0-dev.0",
+  "iconUrl": "icon.svg",
+  "webSupport": true,
+  "group": "Tab Bars",
+  "props": [
+    {
+      "name": "numberOfItems",
+      "displayName": "Number Of Items",
+      "type": "number",
+      "defaultValue": 5,
+      "description": "How many tabs to render."
+    },
+    {
+      "name": "activeIndex",
+      "displayName": "Active Tab Index",
+      "type": "number",
+      "defaultValue": 0,
+      "description": "Index of the currently selected tab."
+    },
+    {
+      "name": "barFill",
+      "displayName": "Bar Fill Color",
+      "type": "color",
+      "defaultValue": "#1C1C1E",
+      "description": "Background colour of the rounded bar surface. This is a layout prop, not a `menu` style override — the component applies it after the merged `menu` style, so it is the only way to actually change the bar's fill."
+    },
+    {
+      "name": "accent",
+      "displayName": "Accent Color",
+      "type": "color",
+      "defaultValue": "#34D399",
+      "description": "Tint applied to the active tab's label. This is a layout prop, not an `activeTabLabel` style override — the component applies it after the merged `activeTabLabel` style, so it is the only way to actually change the active label's colour."
+    }
+  ],
+  "events": [
+    {
+      "name": "onChange",
+      "displayName": "On Change",
+      "description": "Fired when the active tab changes, with the newly selected index.",
+      "params": [
+        { "name": "widget", "type": "widget" },
+        { "name": "activeIndex", "type": "number" }
+      ]
+    }
+  ],
+  "styles": [
+    "root",
+    "menu",
+    "tabItem",
+    "tabLabel",
+    "activeTabLabel",
+    "tabIcon",
+    "activeTabIcon"
+  ]
+}
