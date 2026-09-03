@@ -1,0 +1,16 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "build",
+    "paths": {
+      "@wavemaker-ai/app-rn-runtime/components/*": [
+        "./node_modules/@wavemaker/app-rn-runtime/components/*",
+        "./node_modules/@wavemaker/app-rn-runtime/components-prism/*"
+      ],
+      "@wavemaker-ai/app-rn-runtime/*": ["./node_modules/@wavemaker/app-rn-runtime/*"],
+      "@wavemaker/rn-components/*": ["../components/build/*"]
+    },
+  },
+  "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules", "dist"]
+}

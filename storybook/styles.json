@@ -1,0 +1,481 @@
+{
+    "text": {
+        "fontFamily": "Roboto",
+        "userSelect": "text",
+        "__trace": [],
+        "root": {
+            "__trace": []
+        },
+        "text": {
+            "__trace": []
+        }
+    },
+    "root": {
+        "height": 80,
+        "__trace": [
+            {
+                "name": "@Main-styles:app-tabbar.root",
+                "value": {
+                    "backgroundColor": "#00000000",
+                    "marginTop": -26,
+                    "marginLeft": 0,
+                    "marginBottom": 0,
+                    "boxShadow": "none"
+                }
+            },
+            {
+                "name": "@app-theme:app-tabbar.root",
+                "value": {
+                    "overflow": "hidden",
+                    "height": "var(--wm-tabbar-height)",
+                    "gap": "var(--wm-tabbar-gap)",
+                    "boxShadow": "var(--wm-tabbar-box-shadow)",
+                    "borderRadius": "var(--wm-tabbar-border-radius)",
+                    "borderWidth": "var(--wm-tabbar-border-width)",
+                    "borderStyle": "var(--wm-tabbar-border-style)",
+                    "borderColor": "var(--wm-tabbar-border-color)",
+                    "width": "var(--wm-tabbar-width)"
+                }
+            },
+            {
+                "name": "@default:app-tabbar.root",
+                "value": {
+                    "height": 80
+                }
+            }
+        ],
+        "overflow": "hidden",
+        "gap": 0,
+        "boxShadow": "none",
+        "borderWidth": 0,
+        "borderStyle": "solid",
+        "borderColor": "#000000",
+        "width": "100%",
+        "backgroundColor": "#00000000",
+        "marginTop": -26,
+        "marginLeft": 0,
+        "marginBottom": 0,
+        "borderTopLeftRadius": 0,
+        "borderTopRightRadius": 0,
+        "borderBottomRightRadius": 0,
+        "borderBottomLeftRadius": 0
+    },
+    "menu": {
+        "height": "100%",
+        "flexDirection": "row",
+        "backgroundColor": "#FFFFFF",
+        "justifyContent": "space-around",
+        "alignItems": "center",
+        "__trace": [
+            {
+                "name": "@app-theme:app-tabbar.menu",
+                "value": {
+                    "backgroundColor": "var(--wm-tabbar-menu-background)",
+                    "alignItems": "center",
+                    "height": "var(--wm-tabbar-menu-height)"
+                }
+            },
+            {
+                "name": "@default:app-tabbar.menu",
+                "value": {
+                    "height": "100%",
+                    "flexDirection": "row",
+                    "backgroundColor": "#ffffff",
+                    "justifyContent": "space-around",
+                    "alignItems": "flex-end"
+                }
+            }
+        ]
+    },
+    "modalContent": {
+        "__trace": []
+    },
+    "moreMenu": {
+        "width": "100%",
+        "flexDirection": "column-reverse",
+        "justifyContent": "flex-end",
+        "backgroundColor": "#FFFFFF",
+        "boxShadow": "0px 4px 11px 0px #dfdfdf,0px 1px 3px 1px #dfdfdf",
+        "zIndex": 1,
+        "__trace": [
+            {
+                "name": "@app-theme:app-tabbar.moreMenu",
+                "value": {
+                    "backgroundColor": "var(--wm-tabbar-more-menu-background)",
+                    "width": "var(--wm-tabbar-more-menu-width)",
+                    "boxShadow": "var(--wm-tabbar-more-menu-box-shadow)"
+                }
+            },
+            {
+                "name": "@default:app-tabbar.moreMenu",
+                "value": {
+                    "width": "100%",
+                    "flexDirection": "column-reverse",
+                    "justifyContent": "flex-end",
+                    "backgroundColor": "#ffffff",
+                    "boxShadow": "0px -6px 6px rgba(0, 0, 0, 0.3)",
+                    "zIndex": 1,
+                    "__trace": [
+                        {
+                            "name": "@default:elevate1.root",
+                            "value": {
+                                "boxShadow": "1px 1px 1px rgba(0, 0, 0, 0.27)",
+                                "zIndex": 1
+                            }
+                        }
+                    ]
+                }
+            }
+        ]
+    },
+    "moreMenuRow": {
+        "flexDirection": "row-reverse",
+        "justifyContent": "space-around",
+        "width": "100%",
+        "paddingTop": 4,
+        "paddingBottom": 4,
+        "__trace": [
+            {
+                "name": "@app-theme:app-tabbar.moreMenuRow",
+                "value": {
+                    "width": "var(--wm-tabbar-more-menu-row-width)",
+                    "padding": "var(--wm-tabbar-more-menu-row-padding)"
+                }
+            },
+            {
+                "name": "@default:app-tabbar.moreMenuRow",
+                "value": {
+                    "flexDirection": "row-reverse",
+                    "justifyContent": "space-around",
+                    "width": "100%",
+                    "paddingTop": 4,
+                    "paddingBottom": 4
+                }
+            }
+        ],
+        "paddingRight": 0,
+        "paddingLeft": 0
+    },
+    "tabItem": {
+        "flexDirection": "column",
+        "justifyContent": "center",
+        "alignItems": "center",
+        "minHeight": 32,
+        "minWidth": 64,
+        "opacity": 1,
+        "marginBottom": 0,
+        "__trace": [
+            {
+                "name": "@app-theme:app-tabbar.tabItem",
+                "value": {
+                    "display": "flex",
+                    "justifyContent": "center",
+                    "alignItems": "center",
+                    "minHeight": "var(--wm-tabbar-item-min-height)",
+                    "minWidth": "var(--wm-tabbar-item-min-width)",
+                    "backgroundColor": "var(--wm-tabbar-item-background-color)",
+                    "borderRadius": "var(--wm-tabbar-item-border-radius)",
+                    "borderWidth": "var(--wm-tabbar-item-border-width)",
+                    "marginBottom": "var(--wm-space-0)",
+                    "borderColor": "var(--wm-tabbar-item-border-color)",
+                    "borderStyle": "var(--wm-tabbar-item-border-style)",
+                    "opacity": "var(--wm-tabbar-item-opacity)",
+                    "padding": "var(--wm-tabbar-item-padding)",
+                    "gap": "var(--wm-tabbar-item-gap)"
+                }
+            },
+            {
+                "name": "@default:app-tabbar.tabItem",
+                "value": {
+                    "flexDirection": "column",
+                    "justifyContent": "center",
+                    "alignItems": "center",
+                    "minHeight": 32,
+                    "minWidth": 64,
+                    "opacity": 1,
+                    "marginBottom": 16
+                }
+            }
+        ],
+        "display": "flex",
+        "backgroundColor": "transparent",
+        "borderWidth": 0,
+        "borderColor": "transparent",
+        "borderStyle": "solid",
+        "gap": 0,
+        "paddingTop": 0,
+        "paddingRight": 0,
+        "paddingBottom": 0,
+        "paddingLeft": 0,
+        "borderTopLeftRadius": 0,
+        "borderTopRightRadius": 0,
+        "borderBottomRightRadius": 0,
+        "borderBottomLeftRadius": 0
+    },
+    "activeTabItem": {
+        "opacity": 1,
+        "height": "auto",
+        "width": 64,
+        "marginBottom": 0,
+        "backgroundColor": "#ffe3dc",
+        "__trace": [
+            {
+                "name": "@app-theme:app-tabbar.activeTabItem",
+                "value": {
+                    "display": "flex",
+                    "justifyContent": "center",
+                    "alignItems": "center",
+                    "height": "auto",
+                    "opacity": "var(--wm-tabbar-item-opacity)",
+                    "marginBottom": "var(--wm-space-0)",
+                    "borderRadius": "var(--wm-tabbar-item-border-radius)",
+                    "borderWidth": "var(--wm-tabbar-item-border-width)",
+                    "borderColor": "var(--wm-tabbar-item-border-color)",
+                    "borderStyle": "var(--wm-tabbar-item-border-style)",
+                    "backgroundColor": "var(--wm-tabbar-item-background-color)",
+                    "padding": "var(--wm-tabbar-item-padding)",
+                    "gap": "var(--wm-tabbar-item-gap)",
+                    "--wm-tabbar-item-border-radius": 50,
+                    "--wm-tabbar-item-border-color": "transparent",
+                    "--wm-tabbar-item-margin-bottom": -2,
+                    "--wm-tabbar-item-border-width": "var(--wm-border-width-0)",
+                    "--wm-tabbar-item-border-style": "var(--wm-border-style-solid)",
+                    "--wm-tabbar-item-background-color": "var(--wm-color-primary-container)",
+                    "--wm-tabbar-item-padding": "var(--wm-space-0)",
+                    "--wm-tabbar-item-gap": "var(--wm-space-0)",
+                    "--wm-tabbar-icon-color": "var(--wm-color-primary)",
+                    "--wm-tabbar-icon-padding": "var(--wm-space-0)",
+                    "--wm-tabbar-text-font-weight": "var(--wm-font-weight-700)",
+                    "--wm-tabbar-text-color": "var(--wm-color-on-surface-variant)"
+                }
+            },
+            {
+                "name": "@default:app-tabbar.activeTabItem",
+                "value": {
+                    "opacity": 1,
+                    "height": 32,
+                    "width": 64,
+                    "borderRadius": 50,
+                    "marginBottom": -2,
+                    "backgroundColor": "#6c757d"
+                }
+            }
+        ],
+        "display": "flex",
+        "justifyContent": "center",
+        "alignItems": "center",
+        "borderWidth": 0,
+        "borderColor": "transparent",
+        "borderStyle": "solid",
+        "gap": 0,
+        "--wm-tabbar-item-border-radius": 50,
+        "--wm-tabbar-item-border-color": "transparent",
+        "--wm-tabbar-item-margin-bottom": -2,
+        "--wm-tabbar-item-border-width": "var(--wm-border-width-0)",
+        "--wm-tabbar-item-border-style": "var(--wm-border-style-solid)",
+        "--wm-tabbar-item-background-color": "var(--wm-color-primary-container)",
+        "--wm-tabbar-item-padding": "var(--wm-space-0)",
+        "--wm-tabbar-item-gap": "var(--wm-space-0)",
+        "--wm-tabbar-icon-color": "var(--wm-color-primary)",
+        "--wm-tabbar-icon-padding": "var(--wm-space-0)",
+        "--wm-tabbar-text-font-weight": "var(--wm-font-weight-700)",
+        "--wm-tabbar-text-color": "var(--wm-color-on-surface-variant)",
+        "paddingTop": 0,
+        "paddingRight": 0,
+        "paddingBottom": 0,
+        "paddingLeft": 0,
+        "borderTopLeftRadius": 50,
+        "borderTopRightRadius": 50,
+        "borderBottomRightRadius": 50,
+        "borderBottomLeftRadius": 50
+    },
+    "tabIcon": {
+        "root": {
+            "alignSelf": "center",
+            "borderBottomColor": "#FF7250",
+            "paddingBottom": 0,
+            "__trace": [
+                {
+                    "name": "@app-theme:app-tabbar.tabIcon.root",
+                    "value": {
+                        "borderBottomColor": "var(--wm-tabbar-icon-border-bottom-color)",
+                        "padding": "var(--wm-tabbar-icon-padding)"
+                    }
+                },
+                {
+                    "name": "@default:app-tabbar.tabIcon.root",
+                    "value": {
+                        "alignSelf": "center",
+                        "borderBottomColor": "transparent",
+                        "paddingBottom": 4
+                    }
+                }
+            ],
+            "paddingTop": 0,
+            "paddingRight": 0,
+            "paddingLeft": 0
+        },
+        "icon": {
+            "fontSize": 24,
+            "paddingRight": 0,
+            "color": "#4F556D",
+            "__trace": [
+                {
+                    "name": "@app-theme:app-tabbar.tabIcon.icon",
+                    "value": {
+                        "color": "var(--wm-tabbar-icon-color)",
+                        "borderBottomColor": "#4263eb",
+                        "fontSize": "var(--wm-tabbar-icon-size)",
+                        "padding": "var(--wm-tabbar-icon-padding)"
+                    }
+                },
+                {
+                    "name": "@default:app-tabbar.tabIcon.icon",
+                    "value": {
+                        "fontSize": 24,
+                        "paddingRight": 0,
+                        "color": "#4263eb"
+                    }
+                }
+            ],
+            "borderBottomColor": "#4263eb",
+            "paddingTop": 0,
+            "paddingBottom": 0,
+            "paddingLeft": 0
+        },
+        "__trace": []
+    },
+    "activeTabIcon": {
+        "root": {
+            "__trace": []
+        },
+        "icon": {
+            "color": "#FF7250",
+            "__trace": [
+                {
+                    "name": "@app-theme:app-tabbar.activeTabIcon.icon",
+                    "value": {
+                        "color": "var(--wm-tabbar-icon-color)",
+                        "fontSize": "var(--wm-tabbar-icon-size)",
+                        "padding": "var(--wm-tabbar-icon-padding)"
+                    }
+                },
+                {
+                    "name": "@default:app-tabbar.activeTabIcon.icon",
+                    "value": {
+                        "color": "#6c757d"
+                    }
+                }
+            ],
+            "fontSize": 24,
+            "paddingTop": 0,
+            "paddingRight": 0,
+            "paddingBottom": 0,
+            "paddingLeft": 0
+        },
+        "__trace": [],
+        "--wm-tabbar-item-border-radius": 50,
+        "--wm-tabbar-item-border-color": "transparent",
+        "--wm-tabbar-item-margin-bottom": -2,
+        "--wm-tabbar-item-border-width": "var(--wm-border-width-0)",
+        "--wm-tabbar-item-border-style": "var(--wm-border-style-solid)",
+        "--wm-tabbar-item-background-color": "var(--wm-color-primary-container)",
+        "--wm-tabbar-item-padding": "var(--wm-space-0)",
+        "--wm-tabbar-item-gap": "var(--wm-space-0)",
+        "--wm-tabbar-icon-color": "var(--wm-color-primary)",
+        "--wm-tabbar-icon-padding": "var(--wm-space-0)",
+        "--wm-tabbar-text-font-weight": "var(--wm-font-weight-700)",
+        "--wm-tabbar-text-color": "var(--wm-color-on-surface-variant)"
+    },
+    "tabLabel": {
+        "fontSize": 12,
+        "marginTop": 4,
+        "fontWeight": 400,
+        "fontFamily": "Roboto",
+        "color": "#4F556D",
+        "textAlign": "center",
+        "__trace": [
+            {
+                "name": "@app-theme:app-tabbar.tabLabel",
+                "value": {
+                    "color": "var(--wm-tabbar-text-color)",
+                    "fontSize": "var(--wm-tabbar-text-font-size)",
+                    "fontFamily": "var(--wm-tabbar-text-font-family)",
+                    "fontWeight": "var(--wm-tabbar-text-font-weight)",
+                    "marginTop": "var(--wm-tabbar-text-margin-top)"
+                }
+            },
+            {
+                "name": "@default:app-tabbar.tabLabel",
+                "value": {
+                    "fontSize": 12,
+                    "marginTop": 4,
+                    "fontWeight": "500",
+                    "fontFamily": "Roboto",
+                    "color": "#4263eb",
+                    "textAlign": "center"
+                }
+            }
+        ]
+    },
+    "activeTabLabel": {
+        "fontWeight": 700,
+        "fontSize": 12,
+        "fontFamily": "Roboto",
+        "color": "#4F556D",
+        "__trace": [
+            {
+                "name": "@app-theme:app-tabbar.activeTabLabel",
+                "value": {
+                    "fontWeight": "var(--wm-tabbar-text-font-weight)",
+                    "fontSize": "var(--wm-tabbar-text-font-size)",
+                    "fontFamily": "var(--wm-tabbar-text-font-family)",
+                    "color": "var(--wm-tabbar-text-color)",
+                    "--wm-tabbar-item-border-radius": 50,
+                    "--wm-tabbar-item-border-color": "transparent",
+                    "--wm-tabbar-item-margin-bottom": -2,
+                    "--wm-tabbar-item-border-width": "var(--wm-border-width-0)",
+                    "--wm-tabbar-item-border-style": "var(--wm-border-style-solid)",
+                    "--wm-tabbar-item-background-color": "var(--wm-color-primary-container)",
+                    "--wm-tabbar-item-padding": "var(--wm-space-0)",
+                    "--wm-tabbar-item-gap": "var(--wm-space-0)",
+                    "--wm-tabbar-icon-color": "var(--wm-color-primary)",
+                    "--wm-tabbar-icon-padding": "var(--wm-space-0)",
+                    "--wm-tabbar-text-font-weight": "var(--wm-font-weight-700)",
+                    "--wm-tabbar-text-color": "var(--wm-color-on-surface-variant)"
+                }
+            },
+            {
+                "name": "@default:app-tabbar.activeTabLabel",
+                "value": {
+                    "fontWeight": "700",
+                    "fontSize": 12,
+                    "fontFamily": "Roboto",
+                    "color": "#4263eb"
+                }
+            }
+        ],
+        "--wm-tabbar-item-border-radius": 50,
+        "--wm-tabbar-item-border-color": "transparent",
+        "--wm-tabbar-item-margin-bottom": -2,
+        "--wm-tabbar-item-border-width": "var(--wm-border-width-0)",
+        "--wm-tabbar-item-border-style": "var(--wm-border-style-solid)",
+        "--wm-tabbar-item-background-color": "var(--wm-color-primary-container)",
+        "--wm-tabbar-item-padding": "var(--wm-space-0)",
+        "--wm-tabbar-item-gap": "var(--wm-space-0)",
+        "--wm-tabbar-icon-color": "var(--wm-color-primary)",
+        "--wm-tabbar-icon-padding": "var(--wm-space-0)",
+        "--wm-tabbar-text-font-weight": "var(--wm-font-weight-700)",
+        "--wm-tabbar-text-color": "var(--wm-color-on-surface-variant)"
+    },
+    "centerHubItem": {
+        "__trace": []
+    },
+    "centerHubIcon": {
+        "__trace": []
+    },
+    "centerHubLabel": {
+        "__trace": []
+    },
+    "__trace": []
+}
