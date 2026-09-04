@@ -1,0 +1,240 @@
+{
+  "name": "wm-tabbar-floating-dock",
+  "displayName": "Floating Dock Tabbar",
+  "description": "A dark, fully rounded pill tab bar that floats above page content with margin on every side. Five evenly spaced tabs each show an icon and a label; the active tab's icon sits inside a rounded highlight bubble and its label switches to the design's accent color.",
+  "version": "0.0.0-dev.0",
+  "iconUrl": "icon.svg",
+  "webSupport": true,
+  "group": "Navigation",
+  "props": [
+    {
+      "name": "activeAccentColor",
+      "displayName": "Active Accent Color",
+      "type": "color",
+      "defaultValue": "#2DD4BF",
+      "required": false,
+      "description": "Color applied to the active tab's icon and label to distinguish it from inactive tabs."
+    },
+    {
+      "name": "activeBubbleColor",
+      "displayName": "Active Bubble Color",
+      "type": "color",
+      "defaultValue": "#1E2A33",
+      "required": false,
+      "description": "Background color of the rounded highlight bubble behind the active tab's icon."
+    },
+    {
+      "name": "activeIndex",
+      "displayName": "Active Index",
+      "type": "number",
+      "defaultValue": 0,
+      "required": false,
+      "description": "Index of the selected tab."
+    },
+    {
+      "name": "classname",
+      "displayName": "Class Name",
+      "type": "string",
+      "defaultValue": null,
+      "required": false,
+      "description": "Extra class names merged into the root style resolution."
+    },
+    {
+      "name": "dataset",
+      "displayName": "Dataset",
+      "type": "list",
+      "defaultValue": null,
+      "required": false,
+      "description": "Items to render as tabs. Overrides numberOfItems when supplied."
+    },
+    {
+      "name": "disabled",
+      "displayName": "Disabled",
+      "type": "boolean",
+      "defaultValue": false,
+      "required": false,
+      "description": "Disables every tab."
+    },
+    {
+      "name": "getIcon",
+      "displayName": "Get Icon",
+      "type": "function",
+      "defaultValue": null,
+      "required": false,
+      "description": "Render override returning a tab’s icon node."
+    },
+    {
+      "name": "getLabel",
+      "displayName": "Get Label",
+      "type": "function",
+      "defaultValue": null,
+      "required": false,
+      "description": "Render override returning a tab’s label."
+    },
+    {
+      "name": "iconPalette",
+      "displayName": "Icon Palette",
+      "type": "style",
+      "defaultValue": null,
+      "required": false,
+      "description": "Active and inactive icon colours."
+    },
+    {
+      "name": "itembadge",
+      "displayName": "Item Badge",
+      "type": "string",
+      "defaultValue": null,
+      "required": false,
+      "description": "Dataset field, or expression, giving each tab its badge value."
+    },
+    {
+      "name": "itemicon",
+      "displayName": "Item Icon",
+      "type": "string",
+      "defaultValue": null,
+      "required": false,
+      "description": "Dataset field, or expression, giving each tab its icon class."
+    },
+    {
+      "name": "itemlabel",
+      "displayName": "Item Label",
+      "type": "string",
+      "defaultValue": null,
+      "required": false,
+      "description": "Dataset field, or expression, giving each tab its label."
+    },
+    {
+      "name": "itemlink",
+      "displayName": "Item Link",
+      "type": "string",
+      "defaultValue": null,
+      "required": false,
+      "description": "Dataset field, or expression, giving each tab its navigation target."
+    },
+    {
+      "name": "maxvisibleitems",
+      "displayName": "Max Visible Items",
+      "type": "number",
+      "defaultValue": null,
+      "required": false,
+      "description": "Tabs shown before the rest collapse into the overflow menu."
+    },
+    {
+      "name": "morebuttoniconclass",
+      "displayName": "More Button Icon Class",
+      "type": "string",
+      "defaultValue": null,
+      "required": false,
+      "description": "Icon class for the overflow button."
+    },
+    {
+      "name": "morebuttonlabel",
+      "displayName": "More Button Label",
+      "type": "string",
+      "defaultValue": "more",
+      "required": false,
+      "description": "Label under the overflow button."
+    },
+    {
+      "name": "name",
+      "displayName": "Name",
+      "type": "string",
+      "defaultValue": null,
+      "required": true,
+      "description": "Widget name, unique within the page."
+    },
+    {
+      "name": "numberOfItems",
+      "displayName": "Number Of Items",
+      "type": "number",
+      "defaultValue": 4,
+      "required": false,
+      "description": "Tab count when no dataset is bound."
+    },
+    {
+      "name": "show",
+      "displayName": "Show",
+      "type": "boolean",
+      "defaultValue": true,
+      "required": false,
+      "description": "Whether the tab bar renders at all."
+    },
+    {
+      "name": "showLabels",
+      "displayName": "Show Labels",
+      "type": "boolean",
+      "defaultValue": true,
+      "required": false,
+      "description": "Show tab labels. This design draws them: all."
+    },
+    {
+      "name": "styles",
+      "displayName": "Styles",
+      "type": "style",
+      "defaultValue": null,
+      "required": false,
+      "description": "Per-region style overrides, keyed by the design’s style regions."
+    }
+  ],
+  "events": [
+    {
+      "name": "onItemClick",
+      "parameters": "index: number, item?: unknown",
+      "description": "A tab was tapped."
+    },
+    {
+      "name": "onItemSelect",
+      "parameters": "index: number, item?: unknown",
+      "description": "The active tab changed, however it changed."
+    },
+    {
+      "name": "onLongPress",
+      "parameters": "index: number, item?: unknown",
+      "description": "A tab was long-pressed."
+    },
+    {
+      "name": "onMoreClick",
+      "parameters": "",
+      "description": "The overflow button was tapped."
+    },
+    {
+      "name": "onMoreItemClick",
+      "parameters": "index: number, item?: unknown",
+      "description": "An item inside the overflow menu was tapped."
+    }
+  ],
+  "styles": [
+    {
+      "name": "root",
+      "description": "The floating shell that wraps the whole bar, including its outer margin."
+    },
+    {
+      "name": "menu",
+      "description": "The rounded bar surface behind all tabs."
+    },
+    {
+      "name": "tabItem",
+      "description": "One tab's icon + label group."
+    },
+    {
+      "name": "activeTabItem",
+      "description": "The rounded highlight bubble behind the active tab's icon."
+    },
+    {
+      "name": "tabLabel",
+      "description": "An inactive tab's label text."
+    },
+    {
+      "name": "activeTabLabel",
+      "description": "The active tab's label text."
+    },
+    {
+      "name": "tabIcon",
+      "description": "An inactive tab's icon tint."
+    },
+    {
+      "name": "activeTabIcon",
+      "description": "The active tab's icon tint."
+    }
+  ]
+}
