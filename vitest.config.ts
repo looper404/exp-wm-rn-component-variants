@@ -28,5 +28,13 @@ export default defineConfig({
     globals: true,
     setupFiles: ['./test/setup.ts'],
     include: ['packages/*/test/**/*.{test,spec}.{ts,tsx}'],
+    env: {
+      // Some shells (this container's included) export NODE_ENV=production
+      // globally. react/react-dom branch on it at module-load time, and their
+      // production builds strip `React.act`, which @testing-library/react's
+      // render/cleanup depend on — pin it for the test run regardless of the
+      // ambient shell.
+      NODE_ENV: 'test',
+    },
   },
 });

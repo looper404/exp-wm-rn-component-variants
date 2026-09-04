@@ -25,8 +25,8 @@ export declare const FLOATING_DOCK_TABBAR_BAR_RADIUS = 32;
 export declare const FLOATING_DOCK_TABBAR_HORIZONTAL_PADDING = 11;
 export declare const FLOATING_DOCK_TABBAR_ICON_SIZE = 22;
 export declare const FLOATING_DOCK_TABBAR_BUBBLE_WIDTH = 44;
-export declare const FLOATING_DOCK_TABBAR_BUBBLE_HEIGHT = 34;
-export declare const FLOATING_DOCK_TABBAR_BUBBLE_RADIUS = 14;
+export declare const FLOATING_DOCK_TABBAR_BUBBLE_HEIGHT = 30;
+export declare const FLOATING_DOCK_TABBAR_BUBBLE_RADIUS = 10;
 export declare const FLOATING_DOCK_TABBAR_ICON_LABEL_GAP = 4;
 export declare const FLOATING_DOCK_TABBAR_LABEL_FONT_SIZE = 11;
 /** Outer gap that reads as "floating". Not part of the design's measured geometry. */
