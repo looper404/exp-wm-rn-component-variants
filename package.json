@@ -1,0 +1,34 @@
+{
+  "name": "@wavemaker/rn-components-workspace",
+  "version": "0.0.0-dev.0",
+  "private": true,
+  "description": "Build orchestrator for the WaveMaker React Native widget package (tabbar, tabs, carousel).",
+  "scripts": {
+    "build": "node scripts/build-npm-package.js --all",
+    "pack": "node scripts/build-npm-package.js --all --pack",
+    "typecheck": "npm run typecheck --prefix packages/components",
+    "lint": "eslint \"packages/**/*.{ts,tsx}\"",
+    "lint:fix": "eslint \"packages/**/*.{ts,tsx}\" --fix",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.5",
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/jest-dom": "^7.0.0",
+    "@testing-library/react": "^16.3.2",
+    "@vitejs/plugin-react": "^6.0.4",
+    "eslint": "^9.39.5",
+    "eslint-config-prettier": "^9.1.2",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "jsdom": "^29.1.1",
+    "prettier": "^3.9.6",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "react-native-web": "^0.21.2",
+    "typescript": "~5.9.2",
+    "typescript-eslint": "^8.65.0",
+    "vitest": "^3.2.7"
+  }
+}

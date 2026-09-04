@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "allowJs": true,
+    "esModuleInterop": true,
+    "jsx": "react-native",
+    "lib": ["DOM", "ESNext"],
+    "module": "preserve",
+    "moduleDetection": "force",
+    "moduleResolution": "bundler",
+    "customConditions": ["react-native"],
+    "noEmit": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "target": "ESNext",
+    "baseUrl": ".",
+    "paths": {
+      "@wavemaker/rn-components/*": ["../packages/components/src/*"],
+      "@stories/*": ["./stories/*"],
+      "@/*": ["./*"]
+    }
+  },
+  "include": [".storybook/**/*.ts", ".storybook/**/*.tsx", "stories/**/*.ts", "stories/**/*.tsx"],
+  "exclude": ["node_modules", "dist", "storybook-static", "package", "packages", "wmx"]
+}
