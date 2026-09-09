@@ -1,4 +1,5 @@
 import React from 'react';
+import type { StyleProp, TextStyle, ViewStyle } from 'react-native';
 import { BaseComponent, BaseComponentState } from '@wavemaker-ai/app-rn-runtime/core/base.component';
 import WmButtonProps from '@wavemaker-ai/app-rn-runtime/components/basic/button/button.props';
 import { DEFAULT_CLASS, WmButtonStyles } from '@wavemaker-ai/app-rn-runtime/components/basic/button/button.styles';
@@ -62,11 +63,15 @@ export default class WmSampleButton extends BaseComponent<
         disabled={props.disabled}
         accessibilityLabel={props.accessibilitylabel || props.caption}
         onPress={(event) => this.invokeEventCallback('onTap', [event, this])}
+        // this.styles.* are typed against the react-native copy nested inside
+        // @wavemaker-ai/app-rn-runtime's own node_modules, which can diverge
+        // from the workspace's top-level react-native (the one SampleButtonProps
+        // is typed against) — same shape at runtime, different nominal types.
         styles={{
-          root: this.styles.root,
-          content: this.styles.content,
-          text: this.styles.text,
-          badge: this.styles.badge,
+          root: this.styles.root as unknown as StyleProp<ViewStyle>,
+          content: this.styles.content as unknown as StyleProp<ViewStyle>,
+          text: this.styles.text as unknown as StyleProp<TextStyle>,
+          badge: this.styles.badge as unknown as StyleProp<ViewStyle>,
         }}
       />
     );
