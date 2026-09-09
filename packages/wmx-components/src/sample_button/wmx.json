@@ -1,0 +1,41 @@
+{
+  "name": "sample_button",
+  "displayName": "Sample Button",
+  "description": "Sample widget demonstrating a wm-button Studio override, rendered by the @wavemaker/rn-components SampleButton.",
+  "version": "0.0.0-dev.0",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wavemaker/wm-react-native-tabbar.git"
+  },
+  "keywords": ["wavemaker", "react-native", "button", "sample", "widget-override"],
+  "iconUrl": "icon.svg",
+  "webSupport": true,
+  "group": "basic",
+  "dependencies": {
+    "@wavemaker/rn-components": "*",
+    "@wavemaker-ai/app-rn-runtime": "*"
+  },
+  "props": [
+    { "name": "caption", "displayName": "Caption", "type": "string", "defaultValue": "Sample Button" },
+    { "name": "iconclass", "displayName": "Icon Class", "type": "string" },
+    { "name": "iconurl", "displayName": "Icon URL", "type": "string" },
+    {
+      "name": "iconposition",
+      "displayName": "Icon Position",
+      "type": "string",
+      "enum": ["left", "right", "top"],
+      "defaultValue": "left"
+    },
+    { "name": "iconsize", "displayName": "Icon Size", "type": "number" },
+    { "name": "iconheight", "displayName": "Icon Height", "type": "number" },
+    { "name": "iconwidth", "displayName": "Icon Width", "type": "number" },
+    { "name": "iconmargin", "displayName": "Icon Margin", "type": "number" },
+    { "name": "badgevalue", "displayName": "Badge Value", "type": "string" },
+    { "name": "disabled", "displayName": "Disabled", "type": "boolean", "defaultValue": false },
+    { "name": "hint", "displayName": "Hint", "type": "string" },
+    { "name": "accessibilitylabel", "displayName": "Accessibility Label", "type": "string" }
+  ],
+  "events": [{ "name": "onTap", "displayName": "On Tap", "description": "Fired when the button is pressed." }],
+  "styles": ["root", "content", "text", "badge"]
+}

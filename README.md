@@ -8,11 +8,11 @@ Run all commands from this `code/` directory.
 
 | Package | npm name | Description |
 |---------|----------|-------------|
-| [`packages/components/`](./packages/components/README.md) | `@wavemaker/rn-components` | All widgets — tab bars (8 variants + shared helpers), tabs, carousel |
+| [`packages/components/`](./packages/components/README.md) | `@wavemaker/rn-components` | All widgets — tab bars (8 variants + shared helpers), tabs, carousel, sample_button |
 | [`storybook/`](./storybook/README.md) | `@wavemaker/rn-storybook` | Storybook host for the widget package |
 | [`packages/wmx-components/`](./packages/wmx-components/README.md) | `@wavemaker/rn-components/tabbar-wmx` | WaveMaker Studio (WMX) wrappers and metadata |
 
-Widgets are grouped by folder inside the package — `src/tabbar/`, `src/tabs/`, `src/carousel/` — each with its own barrel, all re-exported from `src/index.ts`.
+Widgets are grouped by folder inside the package — `src/tabbar/`, `src/tabs/`, `src/carousel/`, `src/sample_button/` — each with its own barrel, all re-exported from `src/index.ts`.
 
 ## Building
 

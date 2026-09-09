@@ -1,7 +1,7 @@
 # @wavemaker/rn-components
 
 WaveMaker React Native widgets in one package — bottom tab bars (8 variants +
-shared helpers), tabs, and carousel.
+shared helpers), tabs, carousel, and sample_button.
 
 ## Install
 
@@ -29,13 +29,15 @@ Each widget group is a folder under `src/` with its own barrel, and
 | `src/tabbar/` | Bottom tab bar widgets — 8 variants + shared helpers |
 | `src/tabs/` | Tabs widget (`Tabs`, `Tabpane`) |
 | `src/carousel/` | Carousel widget |
+| `src/sample_button/` | Sample Button widget |
 
 Import from the package root, or from a group barrel when you want only one
 widget family:
 
 ```tsx
-import { Tabbar, Tabs, Carousel } from '@wavemaker/rn-components';
+import { Tabbar, Tabs, Carousel, SampleButton } from '@wavemaker/rn-components';
 import { Tabs, Tabpane } from '@wavemaker/rn-components/tabs';
+import { SampleButton } from '@wavemaker/rn-components/sample_button';
 ```
 
 The package root has no default export (the three group barrels each have one) —
@@ -115,6 +117,30 @@ Exports `Tabs`, `Tabpane`, `createTabsProps`, plus types `TabsProps`,
 - Configurable controls (position, layout, visibility)
 - Autoplay with duration, default index, peek, and multiple-per-view support
 - Pluggable animations via `CarouselAnimation` / `CarouselAnimationFn`
+
+## Sample Button — `src/sample_button/`
+
+| File | Purpose |
+|------|---------|
+| `sample_button.component.tsx` | `SampleButton` component |
+| `sample_button.props.ts` | Prop types + `createSampleButtonProps` factory |
+| `sample_button.styles.ts` | Default `StyleSheet`, size metrics, and color palette |
+| `use-sample_button-styles.ts` | Resolved-styles hook (merges caller overrides) |
+| `index.ts` | Group barrel |
+
+`SampleButton` takes a `caption` and/or an `icon` render prop (`(args: { size, color }) => ReactNode`),
+a `variant` (`filled` | `outlined` | `text`), a `size` (`small` | `medium` | `large`), and
+`iconPosition` (`left` | `right` | `top`). `disabled` and `loading` both suppress `onPress`;
+`loading` also swaps the caption for a spinner. `badgeCount` renders a small badge pinned to the
+top-right corner. Like the tab bars, it accepts an optional **`styles`** prop (region keys —
+`root`, `content`, `text`, `icon`, `badge`, `badgeText` — mapped to RN `StyleProp`, merged as
+`[defaultStyle, override]`) and a **`palette`** to override colors per variant/disabled state.
+
+```tsx
+<SampleButton caption="Save" variant="filled" size="medium" onPress={() => {}} />
+<SampleButton caption="Favorite" icon={({ size, color }) => <StarIcon size={size} color={color} />} />
+<SampleButton caption="Inbox" badgeCount={3} />
+```
 
 ## Build
 

@@ -2,7 +2,7 @@
   "name": "@wavemaker/rn-components-workspace",
   "version": "0.0.0-dev.0",
   "private": true,
-  "description": "Build orchestrator for the WaveMaker React Native widget package (tabbar, tabs, carousel).",
+  "description": "Build orchestrator for the WaveMaker React Native widget package (tabbar, tabs, carousel, sample_button).",
   "scripts": {
     "build": "node scripts/build-npm-package.js --all",
     "pack": "node scripts/build-npm-package.js --all --pack",
