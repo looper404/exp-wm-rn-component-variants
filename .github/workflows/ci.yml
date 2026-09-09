@@ -35,6 +35,11 @@ jobs:
       - name: Install package deps
         run: npm ci --prefix packages/components
 
+      # The WMX wrapper package carries its own deps too (@wavemaker/app-rn-runtime,
+      # its own react-native, adm-zip for zipping) — needed for its typecheck/build.
+      - name: Install wmx-components deps
+        run: npm ci --prefix packages/wmx-components
+
       - name: Lint
         run: npm run lint
 
