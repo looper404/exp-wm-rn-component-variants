@@ -18,7 +18,7 @@ const wmxDir = root;
 // metadata (parity with the original generator).
 const componentsDir = path.resolve(root, '..', 'components');
 
-const defaultWmxDir = path.join(root, 'dist', 'wmx', 'tabbar');
+const defaultWmxDir = path.join(root, 'dist', 'wmx', 'widgets');
 
 const parseZipCopyDestDir = () => {
   const argv = process.argv.slice(2);

@@ -1,4 +1,4 @@
-# @wavemaker/rn-components/tabbar-wmx
+# @wavemaker/wmx-rn-components
 
 WaveMaker Studio (WMX) widget wrappers and metadata for the `@wavemaker/rn-*` React Native component packages.
 

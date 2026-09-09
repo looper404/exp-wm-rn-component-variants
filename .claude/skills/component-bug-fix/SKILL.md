@@ -14,8 +14,9 @@ patching around it in the component.
 
 Every widget splits concerns across up to five files
 (`<name>.component.tsx`, `<name>.props.ts`, `<name>.styles.ts`,
-`use-<name>-styles.ts`, plus `<variant>.style-props.ts` for tabbar variants).
-Before editing anything, work out which layer actually owns the bug:
+`use-<name>-styles.ts`, plus `<variant>.style-props.ts` for a variant-based
+widget family). Before editing anything, work out which layer actually owns
+the bug:
 
 - Wrong resolved color/size/spacing → almost always `use-<name>-styles.ts`
   (check the merge order: `[static default, computed per-variant/size,
@@ -27,9 +28,9 @@ Before editing anything, work out which layer actually owns the bug:
   its own conflicting default.
 - Wrong render branch (icon position, badge visibility, loading vs. caption,
   accessibility label/role) → `<name>.component.tsx`'s conditional logic.
-- Shared logic reused by multiple tabbar variants → check
-  `packages/components/src/tabbar/shared/` first; a fix there affects every
-  consumer, not just the one you're debugging.
+- Shared logic reused by multiple variants of a widget family → check that
+  family's `shared/` folder first (e.g. `packages/components/src/<family>/shared/`);
+  a fix there affects every consumer, not just the one you're debugging.
 - A widget that only reproduces through the Studio wrapper (props arrive as
   lowercase runtime prop names, e.g. `iconclass`/`badgevalue`) → check the
   mapping in `packages/wmx-components/src/<name>/index.tsx` before assuming
@@ -59,8 +60,8 @@ you found the real bug, not a plausible-looking one.
   bug by special-casing it in the style hook.
 - Don't refactor unrelated code, rename things, or add abstractions while
   you're in there — a bug fix is not a cleanup pass.
-- If the bug is in shared tabbar logic, verify the fix against every variant
-  that consumes it, not just the one that surfaced the report.
+- If the bug is in a widget family's shared logic, verify the fix against
+  every variant that consumes it, not just the one that surfaced the report.
 - Preserve existing behavior for every other test that currently passes —
   a fix that breaks a previously-passing case usually means the root cause
   was misdiagnosed in step 1.

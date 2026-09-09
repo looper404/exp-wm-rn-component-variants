@@ -1,4 +1,4 @@
-/** Storybook shim — tabbar stories do not load custom fonts. */
+/** Storybook shim — stories do not load custom fonts. */
 export function isLoaded() {
   return true;
 }

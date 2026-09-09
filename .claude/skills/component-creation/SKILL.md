@@ -1,6 +1,6 @@
 ---
 name: component-creation
-description: Scaffold a new WaveMaker RN component/widget (a standalone widget group under packages/components/src, or a new tabbar variant) following the sample_button reference convention — component, props, styles, style hook, index barrel, tests, and Storybook stories. Use when adding a new widget, tabbar variant, or widget group to this repo.
+description: Scaffold a new WaveMaker RN component/widget (a standalone widget group under packages/components/src, or a new variant of an existing multi-variant widget family) following the sample_button reference convention — component, props, styles, style hook, index barrel, tests, and Storybook stories. Use when adding a new widget, widget variant, or widget group to this repo.
 ---
 
 # Component creation
@@ -18,14 +18,15 @@ commands this skill relies on.
 - **Standalone widget group** (its own top-level folder under
   `packages/components/src/`, own barrel exported from `src/index.tsx`) —
   this is what `sample_button` is. Default to this unless the task is
-  explicitly "add a tabbar variant."
-- **Tabbar variant** (`packages/components/src/tabbar/<variant>/`) — only
-  once `src/tabbar/` exists per CLAUDE.md's documented layout. Tabbar
-  variants share the `TabbarWidgetProps`/`TabbarNavItem` contract and helpers
-  in `src/tabbar/shared/` — reuse those instead of duplicating logic, and
-  register the variant in `src/tabbar/index.ts`. Tabbar variants also split
-  style *prop types* into their own `<variant>.style-props.ts` file, unlike
-  the flatter `sample_button` layout below.
+  explicitly "add a variant of widget family X."
+- **A variant of an existing multi-variant widget family**
+  (`packages/components/src/<family>/<variant>/`) — only once that family's
+  folder already exists in the repo. Variants in such a family typically
+  share a common widget contract and helpers in `<family>/shared/` — reuse
+  those instead of duplicating logic, and register the new variant in
+  `<family>/index.ts`. Such variants also split style *prop types* into their
+  own `<variant>.style-props.ts` file, unlike the flatter `sample_button`
+  layout below.
 - If neither applies (a genuinely new group like `tabs` or `carousel`),
   treat it like a standalone widget group.
 
@@ -64,8 +65,8 @@ Conventions to match exactly:
   `packages/components/src/index.tsx`. Do **not** re-export the group's
   `default` from the root barrel — only one group can own `default`, and the
   existing comment there explains why; leave it alone.
-- Tabbar variant: export it from `packages/components/src/tabbar/index.ts`
-  instead.
+- A variant of an existing family: export it from that family's
+  `packages/components/src/<family>/index.ts` instead.
 - Never add `react-native-safe-area-context` / `react-native-svg` /
   `react-native` itself as a hard dependency — they're peer deps.
 

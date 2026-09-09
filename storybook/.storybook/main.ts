@@ -47,10 +47,6 @@ const config: StorybookConfig = {
           ".json",
         ],
         alias: {
-          "@wavemaker/rn-components/tabbar": path.resolve(
-            __dirname,
-            "../../packages/components/src/tabbar"
-          ),
           "@wavemaker/rn-components": path.resolve(__dirname, "../../packages/components/src"),
           "@stories": path.resolve(__dirname, "../stories"),
           "expo-linear-gradient": path.resolve(__dirname, "./shims/expo-linear-gradient.js"),
@@ -65,9 +61,9 @@ const config: StorybookConfig = {
           ),
           "react-native-worklets": path.resolve(__dirname, "./shims/react-native-worklets.js"),
           buffer: path.resolve(__dirname, "../node_modules/buffer"),
-          // app-rn-runtime (bundled via the tabbar stories) imports lodash,
-          // which lives only in this storybook's node_modules (not an ancestor
-          // of ../../packages) — resolve it absolutely.
+          // app-rn-runtime (bundled globally via the Storybook decorator) imports
+          // lodash, which lives only in this storybook's node_modules (not an
+          // ancestor of ../../packages) — resolve it absolutely.
           "lodash-es": path.resolve(__dirname, "../node_modules/lodash-es"),
           lodash: path.resolve(__dirname, "../node_modules/lodash"),
           "react-native/Libraries/Utilities/codegenNativeComponent": path.resolve(
