@@ -4,7 +4,7 @@ Common Storybook host for the `@wavemaker/rn-*` React Native component packages.
 
 ## Stories
 
-Stories live under `stories/<widget>/`, one folder per package (`carousel/`, `tabs/`, `tabbar/`).
+Stories live under `stories/<widget>/`, one folder per package (`carousel/`, `tabs/`).
 
 ## Scripts
 

@@ -16,12 +16,11 @@ generates WaveMaker Studio metadata.
 | Path | What |
 |------|------|
 | `packages/components/` | `@wavemaker/rn-components` — the single widget package |
-| `packages/components/src/tabbar/` | 8 tab bar variants + shared helpers |
 | `packages/components/src/tabs/` | Tabs widget |
 | `packages/components/src/carousel/` | Carousel widget |
 | `packages/tsconfig.base.json` | Shared strict TS config the package extends |
 | `storybook/` | `@wavemaker/rn-storybook` — common Storybook host (Vite + react-native-web) |
-| `packages/wmx-components/` | `@wavemaker/rn-components/tabbar-wmx` — Studio wrappers + metadata (ships from `components/`, not `src/`) |
+| `packages/wmx-components/` | `@wavemaker/wmx-rn-components` — Studio wrappers + metadata (ships from `components/`, not `src/`) |
 | `scripts/build-npm-package.js` | Build orchestrator (compile + trim package.json + pack) |
 | `dist/` | Packed `.tgz` tarballs land here (gitignored) |
 
@@ -46,35 +45,17 @@ build script uses the package's own `tsc` against `tsconfig.build.json`; the dev
 
 - **Version comes from the root `package.json`** at build time — do not bump the
   version in `packages/components/package.json`.
-- **Package entry** is `src/index.ts`, which re-exports the three group barrels
-  (`src/tabbar`, `src/tabs`, `src/carousel`). Each group keeps its own
+- **Package entry** is `src/index.ts`, which re-exports each widget group's
+  barrel (e.g. `src/tabs`, `src/carousel`). Each group keeps its own
   `index.ts` so subpath imports still work. The root barrel exports no
   `default` — the groups each have one, so they cannot all be re-exported.
   Source is shipped-from and compiled to `build/` at publish; `build/` and
   `dist/` are generated — never edit them.
-- **Variant file convention** (each tabbar variant folder mirrors this):
-  - `<variant>.component.tsx` — the component
-  - `<variant>.props.ts(x)` — props + `create<Variant>Props` factory
-  - `<variant>.style-props.ts` — style prop types
-  - `<variant>.styles.ts` — `StyleSheet.create` styles + the variant palette
-  - `use-<variant>-styles.ts` — resolved-styles hook (merges caller overrides)
-  - `index.ts` — re-exports; `src/tabbar/index.ts` re-exports each variant
-- **Shared code** lives in `packages/components/src/tabbar/shared/` (icons, the tab-item
-  builder + `TabbarWidgetProps`/`TabbarNavItem` contract in `tabbar-types.ts`,
-  palette, style utils, defaults). Prefer extending shared helpers over
-  duplicating per-variant.
-- **The tab bar widgets are standalone** — they do NOT depend on
-  `@wavemaker/app-rn-runtime`. They own their widget contract (`TabbarWidgetProps`:
-  `numberOfItems` + per-index `getIcon`/`getLabel`/`getBadgeCount` callbacks,
-  `activeIndex`, `onItemClick`) and renders with plain `react-native` primitives
-  + `react-native-safe-area-context` + `react-native-svg` (peer deps — don't add
-  them as hard deps). (The `tabs` and `carousel` widgets are wrapped for
-  `@wavemaker/app-rn-runtime` in `packages/wmx-components/components/`; that dependency lives there,
-  not in this package.)
-- Adding a new variant: create the folder under `packages/components/src/tabbar/`
-  following the convention above, export it from
-  `packages/components/src/tabbar/index.ts`, and add a Storybook story under
-  `storybook/stories/tabbar/`.
+- Adding a new widget group: follow the `sample_button` reference convention
+  (see the `component-creation` skill) — `<name>.component.tsx`,
+  `<name>.props.ts`, `<name>.styles.ts`, `use-<name>-styles.ts`, `index.ts` —
+  export it from `packages/components/src/index.tsx`, and add a Storybook
+  story under `storybook/stories/<name>/`.
 
 ## Gotchas
 
@@ -83,8 +64,8 @@ build script uses the package's own `tsc` against `tsconfig.build.json`; the dev
   `vitest.config.ts`.
 - **Testing approach:** unit-test pure logic (helpers in `shared/`, props
   factories, layout math) — these use type-only RN imports that erase cleanly.
-  Tabbar widgets are self-contained (no runtime navigation stack), so render
-  tests only need the `react-native-web` alias, not runtime providers. Tests live
+  Widgets in this package are self-contained (no runtime navigation stack), so
+  render tests only need the `react-native-web` alias, not runtime providers. Tests live
   in `packages/components/test/<widget>/` as `*.test.ts(x)` (importing from
   `../../src/...`); shared setup is the root `test/setup.ts`. The `test/` folder
   is excluded from the published build.

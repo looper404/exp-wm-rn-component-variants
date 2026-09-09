@@ -2,7 +2,7 @@
   "name": "@wavemaker/rn-components",
   "version": "0.0.0-dev.0",
   "private": true,
-  "description": "WaveMaker React Native widgets — tab bars (8 variants), tabs, and carousel.",
+  "description": "WaveMaker React Native widgets — tabs, carousel, and sample_button.",
   "repository": {
     "type": "git",
     "url": "https://github.com/wavemaker/wm-react-native-tabbar.git"
@@ -18,16 +18,12 @@
   },
   "peerDependencies": {
     "react": "*",
-    "react-native": "*",
-    "react-native-safe-area-context": ">=4.0.0",
-    "react-native-svg": "*"
+    "react-native": "*"
   },
   "devDependencies": {
     "@types/react": "~19.1.0",
     "react": "19.2.3",
     "react-native": "0.82.1",
-    "react-native-safe-area-context": "^5.4.0",
-    "react-native-svg": "15.12.1",
     "typescript": "~5.9.2"
   }
 }

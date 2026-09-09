@@ -1,7 +1,7 @@
 # @wavemaker/rn-components
 
-WaveMaker React Native widgets in one package — bottom tab bars (8 variants +
-shared helpers), tabs, and carousel.
+WaveMaker React Native widgets in one package — tabs, carousel, and
+sample_button.
 
 ## Install
 
@@ -12,12 +12,8 @@ npm install @wavemaker/rn-components
 Peer dependencies (install if not already present):
 
 ```bash
-npm install react react-native react-native-safe-area-context react-native-svg
+npm install react react-native
 ```
-
-`react-native-safe-area-context` and `react-native-svg` are only needed by the
-tab bar widgets; the tabs and carousel widgets use plain `react-native`
-primitives.
 
 ## Layout
 
@@ -26,65 +22,21 @@ Each widget group is a folder under `src/` with its own barrel, and
 
 | Folder | What |
 |--------|------|
-| `src/tabbar/` | Bottom tab bar widgets — 8 variants + shared helpers |
 | `src/tabs/` | Tabs widget (`Tabs`, `Tabpane`) |
 | `src/carousel/` | Carousel widget |
+| `src/sample_button/` | Sample Button widget |
 
 Import from the package root, or from a group barrel when you want only one
 widget family:
 
 ```tsx
-import { Tabbar, Tabs, Carousel } from '@wavemaker/rn-components';
+import { Tabs, Carousel, SampleButton } from '@wavemaker/rn-components';
 import { Tabs, Tabpane } from '@wavemaker/rn-components/tabs';
+import { SampleButton } from '@wavemaker/rn-components/sample_button';
 ```
 
-The package root has no default export (the three group barrels each have one) —
-import components by name.
-
-## Tab bars — `src/tabbar/`
-
-| Folder | Variant |
-|--------|---------|
-| `tabbar/` | Classic Material |
-| `floating-dock-tabbar/` | Floating Dock |
-| `expanding-pill-tabbar/` | Expanding Pill — sliding pill reveals the active label |
-| `notched-fab-tabbar/` | Notched bar with center notch + FAB |
-| `moving-notch-tabbar/` | Moving Notch |
-| `curved-bump-tabbar/` | Curved Bump |
-| `notched-dock-tabbar/` | Notched Dock |
-| `notched-drop-tabbar/` | Notched Drop |
-
-`Tabbar` dispatches to a design via its `variant` prop (default `classic`); each
-design is also exported under its own name. Every variant folder follows the same
-shape: `*.component.tsx`, `*.props.ts`, `*.styles.ts`, `*.style-props.ts`,
-`use-*-styles.ts`, and an `index.ts` barrel. Cross-variant helpers (SVG icons,
-nav parser, palette, defaults) live in `src/tabbar/shared/`.
-
-### Styling
-
-Each component takes a self-contained widget contract (`Partial<TabbarWidgetProps>`): tabs are described by `numberOfItems` plus per-index callbacks — `getIcon(index, active)` (returns an SVG icon node), `getLabel(index)`, and optional `getBadgeCount(index)` — with `activeIndex` selecting the active tab and `onItemClick(index)` reporting presses. Demo tabs ship with the package (`TABBAR_DEFAULT_TABS`, `demoTabbarDefaults`) so a widget renders sample content with no props.
-
-Components accept an optional **`styles`** prop (region keys mapped to React Native `StyleProp<ViewStyle>` / `StyleProp<TextStyle>`, merged as `[defaultStyle, override]`) and an **`iconPalette`**. Some variants (e.g. `ExpandingPillTabbar`, `NotchedFabTabbar`) additionally accept a **`layout`** prop for numeric geometry that sits outside `StyleProp`.
-
-```tsx
-import type { StyleProp, TextStyle, ViewStyle } from 'react-native';
-import { StyleSheet } from 'react-native';
-
-const bar: StyleProp<ViewStyle> = { backgroundColor: '#111' };
-const activeLabel: StyleProp<TextStyle> = { fontSize: 15, fontWeight: '600' };
-const sheet = StyleSheet.create({ activePill: { backgroundColor: '#fff' } });
-
-<ExpandingPillTabbar
-  styles={{ bar, activePill: sheet.activePill, activeLabel }}
-  iconPalette={{ inactive: '#aaa', active: '#111' }}
-  layout={{ pillInset: { horizontal: 24, vertical: 10 } }}
-/>
-
-<NotchedFabTabbar
-  styles={{ fab: { backgroundColor: '#f97316' } }}
-  layout={{ barFill: '#0f172a', fabSize: 52 }}
-/>
-```
+The package root has no default export (each group barrel has one) — import
+components by name.
 
 ## Tabs — `src/tabs/`
 
@@ -115,6 +67,30 @@ Exports `Tabs`, `Tabpane`, `createTabsProps`, plus types `TabsProps`,
 - Configurable controls (position, layout, visibility)
 - Autoplay with duration, default index, peek, and multiple-per-view support
 - Pluggable animations via `CarouselAnimation` / `CarouselAnimationFn`
+
+## Sample Button — `src/sample_button/`
+
+| File | Purpose |
+|------|---------|
+| `sample_button.component.tsx` | `SampleButton` component |
+| `sample_button.props.ts` | Prop types + `createSampleButtonProps` factory |
+| `sample_button.styles.ts` | Default `StyleSheet`, size metrics, and color palette |
+| `use-sample_button-styles.ts` | Resolved-styles hook (merges caller overrides) |
+| `index.ts` | Group barrel |
+
+`SampleButton` takes a `caption` and/or an `icon` render prop (`(args: { size, color }) => ReactNode`),
+a `variant` (`filled` | `outlined` | `text`), a `size` (`small` | `medium` | `large`), and
+`iconPosition` (`left` | `right` | `top`). `disabled` and `loading` both suppress `onPress`;
+`loading` also swaps the caption for a spinner. `badgeCount` renders a small badge pinned to the
+top-right corner. It accepts an optional **`styles`** prop (region keys —
+`root`, `content`, `text`, `icon`, `badge`, `badgeText` — mapped to RN `StyleProp`, merged as
+`[defaultStyle, override]`) and a **`palette`** to override colors per variant/disabled state.
+
+```tsx
+<SampleButton caption="Save" variant="filled" size="medium" onPress={() => {}} />
+<SampleButton caption="Favorite" icon={({ size, color }) => <StarIcon size={size} color={color} />} />
+<SampleButton caption="Inbox" badgeCount={3} />
+```
 
 ## Build
 

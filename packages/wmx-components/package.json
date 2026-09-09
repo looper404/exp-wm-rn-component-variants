@@ -2,7 +2,7 @@
   "name": "@wavemaker/wmx-rn-components",
   "version": "0.0.0-dev.0",
   "private": true,
-  "description": "WaveMaker Studio (WMX) widget wrappers and metadata for @wavemaker/rn-components/tabbar.",
+  "description": "WaveMaker Studio (WMX) widget wrappers and metadata for @wavemaker/rn-components.",
   "repository": {
     "type": "git",
     "url": "https://github.com/wavemaker/wm-react-native-tabbar.git"
