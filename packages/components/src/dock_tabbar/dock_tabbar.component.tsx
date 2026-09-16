@@ -14,11 +14,14 @@ import { useDockTabbarStyles } from './use-dock_tabbar-styles';
  *
  * A decorative notch is cut into the top edge above slot 0 — a shallow wide
  * dip inset clear of the corner radius, plus a small dot nested inside it
- * (not one plain semicircle, which distorts the corner). Both are true
- * cutouts via an SVG mask, and are currently fixed to slot 0 regardless of
- * `activeIndex` — whether it should track the active tab instead was
- * unverified against the source design and is called out as an open
- * question in this widget's introducing PR.
+ * (not one plain semicircle, which distorts the corner). The dip is a true
+ * cutout via an SVG mask; the dot is a solid shape painted in `barFill`
+ * (matching the source design, which shows it opaque regardless of
+ * backdrop), so it is never affected by the dip's transparency/color. Both
+ * are currently fixed to slot 0 regardless of `activeIndex` — whether it
+ * should track the active tab instead was unverified against the source
+ * design and is called out as an open question in this widget's
+ * introducing PR.
  *
  * `classname` is declared for the Studio wrapper/metadata layer, matching
  * the WaveMaker widget contract — resolving a class name needs a runtime
@@ -99,7 +102,6 @@ export function DockTabbar(partial: DockTabbarProps) {
                   fill="#FFFFFF"
                 />
                 <Path d={dipPath} fill="#000000" />
-                <Circle cx={dotCenterX} cy={dotCenterY} r={resolved.notchDotRadius} fill="#000000" />
               </Mask>
             </Defs>
           ) : null}
@@ -113,17 +115,8 @@ export function DockTabbar(partial: DockTabbarProps) {
             fill={resolved.palette.barFill}
             mask={isTransparentNotch ? `url(#${maskId})` : undefined}
           />
-          {!isTransparentNotch ? (
-            <>
-              <Path d={dipPath} fill={resolved.palette.notchColor} />
-              <Circle
-                cx={dotCenterX}
-                cy={dotCenterY}
-                r={resolved.notchDotRadius}
-                fill={resolved.palette.notchColor}
-              />
-            </>
-          ) : null}
+          {!isTransparentNotch ? <Path d={dipPath} fill={resolved.palette.notchColor} /> : null}
+          <Circle cx={dotCenterX} cy={dotCenterY} r={resolved.notchDotRadius} fill={resolved.palette.notchDotColor} />
         </Svg>
         {items.map((item, index) => {
           const active = index === activeIndex;

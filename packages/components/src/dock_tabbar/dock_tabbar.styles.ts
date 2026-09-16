@@ -30,12 +30,19 @@ export interface DockTabbarPalette {
   activeIconColor: string;
   inactiveIconColor: string;
   /**
-   * Paint applied to the notch cutout region. `'transparent'` (the default)
-   * renders it as a true see-through hole via SVG evenodd compositing, so
-   * whatever sits behind the bar shows through, instead of assuming the
-   * surrounding backdrop is any particular flat color.
+   * Paint applied to the notch dip cutout region. `'transparent'` (the
+   * default) renders it as a true see-through hole via SVG evenodd
+   * compositing, so whatever sits behind the bar shows through, instead of
+   * assuming the surrounding backdrop is any particular flat color.
    */
   notchColor: string;
+  /**
+   * Paint applied to the small decorative dot nested inside the notch dip.
+   * Unlike the dip itself, the source design renders this as a solid opaque
+   * shape in the bar's own fill color, not a cutout — so it defaults to
+   * `barFill` and is never affected by `notchColor`/transparency.
+   */
+  notchDotColor: string;
 }
 
 export const DOCK_TABBAR_DEFAULT_PALETTE: DockTabbarPalette = {
@@ -45,6 +52,7 @@ export const DOCK_TABBAR_DEFAULT_PALETTE: DockTabbarPalette = {
   // contrast (>=3:1) against the white bar fill.
   inactiveIconColor: '#6E6E73',
   notchColor: 'transparent',
+  notchDotColor: '#FFFFFF',
 };
 
 export const dockTabbarStyles = StyleSheet.create({
