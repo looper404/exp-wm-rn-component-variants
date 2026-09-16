@@ -51,16 +51,16 @@ export function DockTabbar(partial: DockTabbarProps) {
   const isTransparentNotch = resolved.palette.notchColor === 'transparent';
 
   // The dip is inset to start exactly where the corner radius sweep ends, so
-  // it never overlaps/distorts the rounded corner. The dot sits above the
-  // dip's rising edge, offset from the dip's own curve so the two cutouts
-  // stay visually separate rather than merging into one shape.
+  // it never overlaps/distorts the rounded corner. The dot sits below the
+  // dip's own curve at dotCenterX with a few dp of clearance, so the two
+  // cutouts read as visually separate shapes rather than merging into one.
   const dipLeft = resolved.barRadius;
   const dipRight = resolved.barRadius + resolved.notchDipWidth;
   const dipMidX = (dipLeft + dipRight) / 2;
   const dipControlY = resolved.notchDipDepth * 2;
   const dipPath = `M ${dipLeft} 0 Q ${dipMidX} ${dipControlY} ${dipRight} 0 Z`;
   const dotCenterX = dipLeft + resolved.notchDipWidth * 0.35;
-  const dotCenterY = resolved.notchDotRadius + 5;
+  const dotCenterY = resolved.notchDotRadius + 11;
 
   const handlePress = (index: number) => {
     if (disabled) {
