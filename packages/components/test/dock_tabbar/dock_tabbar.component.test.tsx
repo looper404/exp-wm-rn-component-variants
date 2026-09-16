@@ -11,6 +11,7 @@ vi.mock('react-native-svg', () => ({
   default: () => null,
   Rect: () => null,
   Circle: () => null,
+  Path: () => null,
   Defs: () => null,
   Mask: () => null,
 }));

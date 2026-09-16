@@ -15,8 +15,15 @@ export const DOCK_TABBAR_BAR_HEIGHT = 64;
 export const DOCK_TABBAR_BAR_RADIUS = DOCK_TABBAR_BAR_HEIGHT / 2;
 export const DOCK_TABBAR_ICON_SIZE = 24;
 export const DOCK_TABBAR_DISABLED_OPACITY = 0.4;
-/** Radius of the decorative notch cut into the top edge above slot 0. */
-export const DOCK_TABBAR_NOTCH_RADIUS = 20;
+/**
+ * The decorative notch above slot 0 is two separate cutouts, not one plain
+ * semicircle: a shallow wide dip inset clear of the corner radius, plus a
+ * small dot nested inside it. Widths/depths are eyeballed against the source
+ * screenshot rather than measured exactly — see the PR description.
+ */
+export const DOCK_TABBAR_NOTCH_DIP_WIDTH = 26;
+export const DOCK_TABBAR_NOTCH_DIP_DEPTH = 9;
+export const DOCK_TABBAR_NOTCH_DOT_RADIUS = 4;
 
 export interface DockTabbarPalette {
   barFill: string;

@@ -1,6 +1,6 @@
 import React, { useId } from 'react';
 import { Pressable, View } from 'react-native';
-import Svg, { Circle, Defs, Mask, Rect } from 'react-native-svg';
+import Svg, { Circle, Defs, Mask, Path, Rect } from 'react-native-svg';
 import { createDockTabbarProps, type DockTabbarProps } from './dock_tabbar.props';
 import { useDockTabbarStyles } from './use-dock_tabbar-styles';
 
@@ -12,11 +12,13 @@ import { useDockTabbarStyles } from './use-dock_tabbar-styles';
  * no active pill background — the filled glyph + color is the only active
  * indicator.
  *
- * A decorative semicircular notch is cut into the top edge above slot 0. It
- * is a true cutout (not a painted shape) via an SVG mask, and is currently
- * fixed to slot 0 regardless of `activeIndex` — whether it should track the
- * active tab instead was unverified against the source design and is called
- * out as an open question in this widget's introducing PR.
+ * A decorative notch is cut into the top edge above slot 0 — a shallow wide
+ * dip inset clear of the corner radius, plus a small dot nested inside it
+ * (not one plain semicircle, which distorts the corner). Both are true
+ * cutouts via an SVG mask, and are currently fixed to slot 0 regardless of
+ * `activeIndex` — whether it should track the active tab instead was
+ * unverified against the source design and is called out as an open
+ * question in this widget's introducing PR.
  *
  * `classname` is declared for the Studio wrapper/metadata layer, matching
  * the WaveMaker widget contract — resolving a class name needs a runtime
@@ -46,9 +48,19 @@ export function DockTabbar(partial: DockTabbarProps) {
     return null;
   }
 
-  const slotWidth = resolved.barWidth / items.length;
-  const notchCenterX = slotWidth / 2;
   const isTransparentNotch = resolved.palette.notchColor === 'transparent';
+
+  // The dip is inset to start exactly where the corner radius sweep ends, so
+  // it never overlaps/distorts the rounded corner. The dot sits above the
+  // dip's rising edge, offset from the dip's own curve so the two cutouts
+  // stay visually separate rather than merging into one shape.
+  const dipLeft = resolved.barRadius;
+  const dipRight = resolved.barRadius + resolved.notchDipWidth;
+  const dipMidX = (dipLeft + dipRight) / 2;
+  const dipControlY = resolved.notchDipDepth * 2;
+  const dipPath = `M ${dipLeft} 0 Q ${dipMidX} ${dipControlY} ${dipRight} 0 Z`;
+  const dotCenterX = dipLeft + resolved.notchDipWidth * 0.35;
+  const dotCenterY = resolved.notchDotRadius + 5;
 
   const handlePress = (index: number) => {
     if (disabled) {
@@ -86,7 +98,8 @@ export function DockTabbar(partial: DockTabbarProps) {
                   ry={resolved.barRadius}
                   fill="#FFFFFF"
                 />
-                <Circle cx={notchCenterX} cy={0} r={resolved.notchRadius} fill="#000000" />
+                <Path d={dipPath} fill="#000000" />
+                <Circle cx={dotCenterX} cy={dotCenterY} r={resolved.notchDotRadius} fill="#000000" />
               </Mask>
             </Defs>
           ) : null}
@@ -101,12 +114,15 @@ export function DockTabbar(partial: DockTabbarProps) {
             mask={isTransparentNotch ? `url(#${maskId})` : undefined}
           />
           {!isTransparentNotch ? (
-            <Circle
-              cx={notchCenterX}
-              cy={0}
-              r={resolved.notchRadius}
-              fill={resolved.palette.notchColor}
-            />
+            <>
+              <Path d={dipPath} fill={resolved.palette.notchColor} />
+              <Circle
+                cx={dotCenterX}
+                cy={dotCenterY}
+                r={resolved.notchDotRadius}
+                fill={resolved.palette.notchColor}
+              />
+            </>
           ) : null}
         </Svg>
         {items.map((item, index) => {

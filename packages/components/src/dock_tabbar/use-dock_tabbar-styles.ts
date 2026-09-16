@@ -8,7 +8,9 @@ import {
   DOCK_TABBAR_DEFAULT_PALETTE,
   DOCK_TABBAR_DISABLED_OPACITY,
   DOCK_TABBAR_ICON_SIZE,
-  DOCK_TABBAR_NOTCH_RADIUS,
+  DOCK_TABBAR_NOTCH_DIP_DEPTH,
+  DOCK_TABBAR_NOTCH_DIP_WIDTH,
+  DOCK_TABBAR_NOTCH_DOT_RADIUS,
   dockTabbarStyles,
 } from './dock_tabbar.styles';
 
@@ -39,7 +41,9 @@ export const useDockTabbarStyles = ({ disabled, styles }: UseDockTabbarStylesArg
       barWidth: DOCK_TABBAR_BAR_WIDTH,
       barHeight: DOCK_TABBAR_BAR_HEIGHT,
       barRadius: DOCK_TABBAR_BAR_RADIUS,
-      notchRadius: DOCK_TABBAR_NOTCH_RADIUS,
+      notchDipWidth: DOCK_TABBAR_NOTCH_DIP_WIDTH,
+      notchDipDepth: DOCK_TABBAR_NOTCH_DIP_DEPTH,
+      notchDotRadius: DOCK_TABBAR_NOTCH_DOT_RADIUS,
     };
   }, [disabled, styles]);
 };
