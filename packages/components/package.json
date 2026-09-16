@@ -18,12 +18,14 @@
   },
   "peerDependencies": {
     "react": "*",
-    "react-native": "*"
+    "react-native": "*",
+    "react-native-svg": "*"
   },
   "devDependencies": {
     "@types/react": "~19.1.0",
     "react": "19.2.3",
     "react-native": "0.82.1",
+    "react-native-svg": "15.12.1",
     "typescript": "~5.9.2"
   }
 }
