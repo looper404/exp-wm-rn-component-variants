@@ -1,8 +1,8 @@
-import React, { useId } from 'react';
-import { Pressable, View } from 'react-native';
+import React, { useEffect, useId, useRef, useState } from 'react';
+import { Animated, Pressable, View } from 'react-native';
 import Svg, { Circle, Defs, Mask, Path, Rect } from 'react-native-svg';
 import { createDockTabbarProps, type DockTabbarProps } from './dock_tabbar.props';
-import { computeDockTabbarNotchGeometry } from './dock_tabbar.styles';
+import { computeDockTabbarNotchGeometry, DOCK_TABBAR_NOTCH_SLIDE_DURATION_MS } from './dock_tabbar.styles';
 import { useDockTabbarStyles } from './use-dock_tabbar-styles';
 
 /**
@@ -47,6 +47,27 @@ export function DockTabbar(partial: DockTabbarProps) {
   const resolved = useDockTabbarStyles({ disabled, dotColor, styles });
   const maskId = `dock-tabbar-notch-mask-${useId().replace(/[^a-zA-Z0-9]/g, '')}`;
 
+  // The notch (dip + dot) slides horizontally to the newly active slot
+  // instead of snapping — `slideIndex` is a fractional, animated stand-in for
+  // `activeIndex` that `computeDockTabbarNotchGeometry` interpolates through
+  // on every tick, since the dip is drawn as an SVG path rather than a
+  // transform-only shape.
+  const [slideIndex, setSlideIndex] = useState(activeIndex);
+  const slideValue = useRef(new Animated.Value(activeIndex)).current;
+
+  useEffect(() => {
+    const listenerId = slideValue.addListener(({ value }) => setSlideIndex(value));
+    return () => slideValue.removeListener(listenerId);
+  }, [slideValue]);
+
+  useEffect(() => {
+    Animated.timing(slideValue, {
+      toValue: activeIndex,
+      duration: DOCK_TABBAR_NOTCH_SLIDE_DURATION_MS,
+      useNativeDriver: false,
+    }).start();
+  }, [activeIndex, slideValue]);
+
   if (!show) {
     return null;
   }
@@ -57,7 +78,7 @@ export function DockTabbar(partial: DockTabbarProps) {
   // the dip's cutout region while staying inset from the dip's own edges so
   // the two still read as distinct shapes rather than merging into one.
   const { dipPath, dotCenterX, dotCenterY } = computeDockTabbarNotchGeometry({
-    activeIndex,
+    activeIndex: slideIndex,
     itemCount: items.length,
     barWidth: resolved.barWidth,
     barRadius: resolved.barRadius,

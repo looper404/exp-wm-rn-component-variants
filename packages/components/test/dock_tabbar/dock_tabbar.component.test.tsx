@@ -5,12 +5,20 @@ import { Text } from 'react-native';
 // react-native-svg's own dependency chain pulls in a Flow-typed react-native
 // entrypoint that Vitest's CJS interop can't parse; the notch cutout it draws
 // is a visual concern verified via Storybook, not this logic-level suite, so
-// stub the module instead.
+// stub the module instead. The root `Svg` still renders its children (rather
+// than short-circuiting to null) so `Circle` below actually mounts and can
+// record every `cx` it's rendered with — the slide-animation test uses that
+// to observe the notch dot move over time.
+const { circleCxCalls } = vi.hoisted(() => ({ circleCxCalls: [] as number[] }));
+
 vi.mock('react-native-svg', () => ({
   __esModule: true,
-  default: () => null,
+  default: ({ children }: { children?: unknown }) => children,
   Rect: () => null,
-  Circle: () => null,
+  Circle: (props: { cx: number }) => {
+    circleCxCalls.push(props.cx);
+    return null;
+  },
   Path: () => null,
   Defs: () => null,
   Mask: () => null,
@@ -19,6 +27,13 @@ vi.mock('react-native-svg', () => ({
 import { DockTabbar } from '../../src/dock_tabbar';
 import type { DockTabbarItem } from '../../src/dock_tabbar';
 import { DOCK_TABBAR_DEFAULT_PALETTE } from '../../src/dock_tabbar';
+import {
+  computeDockTabbarNotchGeometry,
+  DOCK_TABBAR_BAR_RADIUS,
+  DOCK_TABBAR_BAR_WIDTH,
+  DOCK_TABBAR_NOTCH_DIP_DEPTH,
+  DOCK_TABBAR_NOTCH_DIP_WIDTH,
+} from '../../src/dock_tabbar/dock_tabbar.styles';
 
 const makeItems = (): DockTabbarItem[] =>
   Array.from({ length: 5 }, (_, index) => ({
@@ -97,6 +112,32 @@ describe('DockTabbar', () => {
   // react-native-web's own Responder System, which doesn't reliably fire in
   // jsdom via synthetic pointer events. Verified manually via Storybook
   // instead of simulated here.
+
+  // The slide is driven by an `Animated.Value` (see dock_tabbar.component.tsx)
+  // so a real app tweens smoothly between slots — but react-native-web swaps
+  // in its `AnimatedMock` under `Platform.isTesting`, which by design resolves
+  // every animation straight to its final value for deterministic tests. So
+  // this only asserts the end state lands on the new slot, not the tween
+  // itself; the actual motion is verified manually via Storybook (see the
+  // `onLongPress` comment above for the same tradeoff on gesture timing).
+  it('moves the notch dot to the new activeIndex on change', () => {
+    circleCxCalls.length = 0;
+    const { rerender } = render(<DockTabbar name="dockTabbar1" activeIndex={0} items={makeItems()} />);
+    const startCx = circleCxCalls.at(-1)!;
+
+    const targetCx = computeDockTabbarNotchGeometry({
+      activeIndex: 4,
+      itemCount: 5,
+      barWidth: DOCK_TABBAR_BAR_WIDTH,
+      barRadius: DOCK_TABBAR_BAR_RADIUS,
+      notchDipWidth: DOCK_TABBAR_NOTCH_DIP_WIDTH,
+      notchDipDepth: DOCK_TABBAR_NOTCH_DIP_DEPTH,
+    }).dotCenterX;
+    expect(targetCx).not.toBe(startCx);
+
+    rerender(<DockTabbar name="dockTabbar1" activeIndex={4} items={makeItems()} />);
+    expect(circleCxCalls.at(-1)).toBeCloseTo(targetCx, 5);
+  });
 
   it('renders nothing when show is false', () => {
     render(<DockTabbar name="dockTabbar1" activeIndex={0} items={makeItems()} show={false} testID="dock" />);

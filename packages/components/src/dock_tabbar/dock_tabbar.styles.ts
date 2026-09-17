@@ -24,6 +24,8 @@ export const DOCK_TABBAR_DISABLED_OPACITY = 0.4;
 export const DOCK_TABBAR_NOTCH_DIP_WIDTH = 26;
 export const DOCK_TABBAR_NOTCH_DIP_DEPTH = 9;
 export const DOCK_TABBAR_NOTCH_DOT_RADIUS = 4;
+/** Duration of the notch's horizontal slide when `activeIndex` changes. */
+export const DOCK_TABBAR_NOTCH_SLIDE_DURATION_MS = 220;
 
 export interface DockTabbarPalette {
   barFill: string;
