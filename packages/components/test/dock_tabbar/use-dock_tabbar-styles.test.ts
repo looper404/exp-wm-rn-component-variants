@@ -44,4 +44,16 @@ describe('useDockTabbarStyles', () => {
     expect(barSurface.width).toBe(DOCK_TABBAR_BAR_WIDTH);
     expect(tabItem.marginHorizontal).toBe(4);
   });
+
+  it('defaults the notch dot color to activeIconColor when dotColor is not provided', () => {
+    const { result } = renderHook(() => useDockTabbarStyles({ disabled: false }));
+    expect(result.current.palette.notchDotColor).toBe(DOCK_TABBAR_DEFAULT_PALETTE.activeIconColor);
+  });
+
+  it('lets dotColor override the default notch dot color', () => {
+    const { result } = renderHook(() => useDockTabbarStyles({ disabled: false, dotColor: '#FF3B30' }));
+    expect(result.current.palette.notchDotColor).toBe('#FF3B30');
+    // Overriding the dot color leaves the rest of the palette untouched.
+    expect(result.current.palette.barFill).toBe(DOCK_TABBAR_DEFAULT_PALETTE.barFill);
+  });
 });

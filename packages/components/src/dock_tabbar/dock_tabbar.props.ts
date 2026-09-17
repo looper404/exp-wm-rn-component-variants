@@ -22,6 +22,8 @@ export interface DockTabbarProps {
   activeIndex: number;
   classname?: string;
   disabled?: boolean;
+  /** Color of the notch dot. Defaults to the active tab's icon color (`activeIconColor`). */
+  dotColor?: string;
   /** Exactly 5 entries, one per slot. */
   items: DockTabbarItem[];
   name: string;

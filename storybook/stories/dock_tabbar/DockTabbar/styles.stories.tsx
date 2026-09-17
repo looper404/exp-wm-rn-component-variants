@@ -17,14 +17,15 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** No overrides — the default 358x64dp white pill. */
+/** No overrides — the default 358x64dp #F4F4F4 pill. */
 export const Default: Story = {};
 
 /**
  * Renders on a colored backdrop instead of the canvas default. The notch's
  * dip is a transparent cutout, so its contrast (and the nested dot's — see
- * TRA-14) only shows up against a non-white surface; the plain white canvas
- * this story's `Default` renders on can't catch a regression here.
+ * TRA-14) only shows up against a surface that differs from the bar fill;
+ * the plain canvas this story's `Default` renders on can't catch a
+ * regression here.
  */
 export const OnColoredBackdrop: Story = {
   decorators: [

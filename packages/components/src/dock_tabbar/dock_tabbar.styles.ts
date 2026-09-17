@@ -39,20 +39,74 @@ export interface DockTabbarPalette {
   /**
    * Paint applied to the small decorative dot nested inside the notch dip.
    * Unlike the dip itself, the source design renders this as a solid opaque
-   * shape in the bar's own fill color, not a cutout — so it defaults to
-   * `barFill` and is never affected by `notchColor`/transparency.
+   * shape, not a cutout — it is never affected by `notchColor`/transparency.
+   * Defaults to `activeIconColor` (overridable via the `dotColor` prop).
    */
   notchDotColor: string;
 }
 
 export const DOCK_TABBAR_DEFAULT_PALETTE: DockTabbarPalette = {
-  barFill: '#FFFFFF',
+  barFill: '#F4F4F4',
   activeIconColor: '#6C22C4',
   // Darkened from the raw measured #B1ADB0 to meet WCAG 1.4.11 non-text
-  // contrast (>=3:1) against the white bar fill.
+  // contrast (>=3:1) against the bar fill.
   inactiveIconColor: '#6E6E73',
   notchColor: 'transparent',
-  notchDotColor: '#FFFFFF',
+  // Mirrors activeIconColor by default — see `notchDotColor`'s own doc.
+  notchDotColor: '#6C22C4',
+};
+
+export interface DockTabbarNotchGeometry {
+  dipLeft: number;
+  dipRight: number;
+  dipMidX: number;
+  dipControlY: number;
+  dipPath: string;
+  dotCenterX: number;
+  dotCenterY: number;
+}
+
+export interface ComputeDockTabbarNotchGeometryArgs {
+  activeIndex: number;
+  itemCount: number;
+  barWidth: number;
+  barRadius: number;
+  notchDipWidth: number;
+  notchDipDepth: number;
+}
+
+/**
+ * Positions the notch dip + dot above the active slot's center, clamped so
+ * they never overlap/distort the bar's rounded corners — this only matters
+ * for the first/last slots, whose unclamped center sits inside the corner
+ * radius sweep.
+ */
+export const computeDockTabbarNotchGeometry = ({
+  activeIndex,
+  itemCount,
+  barWidth,
+  barRadius,
+  notchDipWidth,
+  notchDipDepth,
+}: ComputeDockTabbarNotchGeometryArgs): DockTabbarNotchGeometry => {
+  const slotWidth = barWidth / itemCount;
+  const idealDipMidX = slotWidth * (activeIndex + 0.5);
+  const minDipMidX = barRadius + notchDipWidth / 2;
+  const maxDipMidX = barWidth - barRadius - notchDipWidth / 2;
+  const dipMidX = Math.min(Math.max(idealDipMidX, minDipMidX), maxDipMidX);
+  const dipLeft = dipMidX - notchDipWidth / 2;
+  const dipRight = dipMidX + notchDipWidth / 2;
+  const dipControlY = notchDipDepth * 2;
+
+  return {
+    dipLeft,
+    dipRight,
+    dipMidX,
+    dipControlY,
+    dipPath: `M ${dipLeft} 0 Q ${dipMidX} ${dipControlY} ${dipRight} 0 Z`,
+    dotCenterX: dipMidX,
+    dotCenterY: notchDipDepth / 2,
+  };
 };
 
 export const dockTabbarStyles = StyleSheet.create({

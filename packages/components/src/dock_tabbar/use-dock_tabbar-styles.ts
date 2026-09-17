@@ -16,11 +16,13 @@ import {
 
 interface UseDockTabbarStylesArgs {
   disabled: boolean;
+  /** Overrides `palette.notchDotColor`; defaults to `activeIconColor` when omitted. */
+  dotColor?: string;
   styles?: DockTabbarStylesProp;
 }
 
 /** Resolves the default styles/palette/metrics, merged with caller overrides. */
-export const useDockTabbarStyles = ({ disabled, styles }: UseDockTabbarStylesArgs) => {
+export const useDockTabbarStyles = ({ disabled, dotColor, styles }: UseDockTabbarStylesArgs) => {
   return useMemo(() => {
     const root: StyleProp<ViewStyle> = [dockTabbarStyles.root, styles?.root];
 
@@ -30,13 +32,17 @@ export const useDockTabbarStyles = ({ disabled, styles }: UseDockTabbarStylesArg
       styles?.barSurface,
     ];
 
+    const palette = dotColor
+      ? { ...DOCK_TABBAR_DEFAULT_PALETTE, notchDotColor: dotColor }
+      : DOCK_TABBAR_DEFAULT_PALETTE;
+
     return {
       root,
       barSurface,
       tabItem: [dockTabbarStyles.tabItem, styles?.tabItem] as StyleProp<ViewStyle>,
       iconGlyph: [dockTabbarStyles.iconGlyph, styles?.iconGlyph] as StyleProp<ViewStyle>,
       notchIndicator: [dockTabbarStyles.notchIndicator, styles?.notchIndicator] as StyleProp<ViewStyle>,
-      palette: DOCK_TABBAR_DEFAULT_PALETTE,
+      palette,
       iconSize: DOCK_TABBAR_ICON_SIZE,
       barWidth: DOCK_TABBAR_BAR_WIDTH,
       barHeight: DOCK_TABBAR_BAR_HEIGHT,
@@ -45,5 +51,5 @@ export const useDockTabbarStyles = ({ disabled, styles }: UseDockTabbarStylesArg
       notchDipDepth: DOCK_TABBAR_NOTCH_DIP_DEPTH,
       notchDotRadius: DOCK_TABBAR_NOTCH_DOT_RADIUS,
     };
-  }, [disabled, styles]);
+  }, [disabled, dotColor, styles]);
 };

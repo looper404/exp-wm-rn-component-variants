@@ -4,11 +4,11 @@ import { DockTabbar } from '@wavemaker/rn-components/dock_tabbar';
 import { demoItems } from './icons';
 
 const meta = {
-  title: 'dock_tabbar/DockTabbar/activeIndex',
+  title: 'dock_tabbar/DockTabbar/dotColor',
   component: DockTabbar,
   args: { name: 'dockTabbar1', items: demoItems, activeIndex: 0, onChange: fn() },
   argTypes: {
-    activeIndex: { control: { type: 'number', min: 0, max: 4, step: 1 } },
+    dotColor: { control: 'color' },
     items: { control: false },
   },
 } satisfies Meta<typeof DockTabbar>;
@@ -16,11 +16,8 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/** Slot 0 is active — the decorative notch sits above it. */
+/** `dotColor` defaults to unset, which falls back to `activeIconColor`. */
 export const Default: Story = {};
 
-/** The notch slides to sit above the active slot. */
-export const MiddleItemActive: Story = { args: { activeIndex: 2 } };
-
-/** The notch clamps clear of the right corner radius even at the last slot. */
-export const LastItemActive: Story = { args: { activeIndex: 4 } };
+/** An explicit `dotColor` overrides the `activeIconColor` fallback. */
+export const CustomDotColor: Story = { args: { dotColor: '#FF3B30' } };
