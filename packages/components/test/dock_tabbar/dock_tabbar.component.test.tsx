@@ -155,4 +155,16 @@ describe('DockTabbar', () => {
     render(<DockTabbar name="dockTabbar1" activeIndex={0} items={makeItems()} testID="dock" />);
     expect(screen.getByTestId('dock').getAttribute('aria-label')).toBe('dockTabbar1');
   });
+
+  it('renders a label below the icon when the item provides one, passing it its index', () => {
+    const items = makeItems();
+    items[2] = { ...items[2], label: (index) => <Text testID="label_2">{`Label ${index}`}</Text> };
+    render(<DockTabbar name="dockTabbar1" activeIndex={0} items={items} />);
+    expect(screen.getByTestId('label_2').textContent).toBe('Label 2');
+  });
+
+  it('renders no label when an item omits it', () => {
+    render(<DockTabbar name="dockTabbar1" activeIndex={0} items={makeItems()} testID="dock" />);
+    expect(screen.queryByTestId('label_0')).toBeNull();
+  });
 });

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Text } from 'react-native';
 import Svg, { Circle, Path } from 'react-native-svg';
 import type { DockTabbarItem, DockTabbarItemIconArgs } from '@wavemaker/rn-components/dock_tabbar';
 
@@ -68,3 +69,13 @@ export const demoItems: DockTabbarItem[] = GLYPH_NAMES.map((name) => ({
   accessibilityLabel: name[0].toUpperCase() + name.slice(1),
   icon: (args) => <Glyph name={name} {...args} />,
 }));
+
+/** Same as `demoItems`, plus a text label rendered below each icon. */
+export const demoItemsWithLabels: DockTabbarItem[] = GLYPH_NAMES.map((name) => {
+  const displayName = name[0].toUpperCase() + name.slice(1);
+  return {
+    accessibilityLabel: displayName,
+    icon: (args) => <Glyph name={name} {...args} />,
+    label: () => <Text style={{ fontSize: 11, color: '#6E6E73' }}>{displayName}</Text>,
+  };
+});

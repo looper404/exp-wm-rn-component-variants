@@ -41,6 +41,7 @@ export const useDockTabbarStyles = ({ disabled, dotColor, styles }: UseDockTabba
       barSurface,
       tabItem: [dockTabbarStyles.tabItem, styles?.tabItem] as StyleProp<ViewStyle>,
       iconGlyph: [dockTabbarStyles.iconGlyph, styles?.iconGlyph] as StyleProp<ViewStyle>,
+      label: [dockTabbarStyles.label, styles?.label] as StyleProp<ViewStyle>,
       notchIndicator: [dockTabbarStyles.notchIndicator, styles?.notchIndicator] as StyleProp<ViewStyle>,
       palette,
       iconSize: DOCK_TABBAR_ICON_SIZE,

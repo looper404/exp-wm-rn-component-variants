@@ -9,6 +9,7 @@ import {
   DOCK_TABBAR_DEFAULT_PALETTE,
   DOCK_TABBAR_DISABLED_OPACITY,
   DOCK_TABBAR_ICON_SIZE,
+  DOCK_TABBAR_LABEL_MARGIN_TOP,
 } from '../../src/dock_tabbar/dock_tabbar.styles';
 
 const flatten = (style: unknown) => StyleSheet.flatten(style as never) as Record<string, unknown>;
@@ -55,5 +56,15 @@ describe('useDockTabbarStyles', () => {
     expect(result.current.palette.notchDotColor).toBe('#FF3B30');
     // Overriding the dot color leaves the rest of the palette untouched.
     expect(result.current.palette.barFill).toBe(DOCK_TABBAR_DEFAULT_PALETTE.barFill);
+  });
+
+  it('resolves the default label margin and merges caller overrides', () => {
+    const { result } = renderHook(() => useDockTabbarStyles({ disabled: false }));
+    expect(flatten(result.current.label).marginTop).toBe(DOCK_TABBAR_LABEL_MARGIN_TOP);
+
+    const { result: overridden } = renderHook(() =>
+      useDockTabbarStyles({ disabled: false, styles: { label: { marginTop: 6 } } })
+    );
+    expect(flatten(overridden.current.label).marginTop).toBe(6);
   });
 });

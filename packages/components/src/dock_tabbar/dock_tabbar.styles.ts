@@ -7,6 +7,7 @@ export interface DockTabbarStylesProp {
   barSurface?: StyleProp<ViewStyle>;
   tabItem?: StyleProp<ViewStyle>;
   iconGlyph?: StyleProp<ViewStyle>;
+  label?: StyleProp<ViewStyle>;
   notchIndicator?: StyleProp<ViewStyle>;
 }
 
@@ -15,6 +16,8 @@ export const DOCK_TABBAR_BAR_HEIGHT = 64;
 export const DOCK_TABBAR_BAR_RADIUS = DOCK_TABBAR_BAR_HEIGHT / 2;
 export const DOCK_TABBAR_ICON_SIZE = 24;
 export const DOCK_TABBAR_DISABLED_OPACITY = 0.4;
+/** Gap between the icon glyph and the label rendered below it. */
+export const DOCK_TABBAR_LABEL_MARGIN_TOP = 2;
 /**
  * The decorative notch above slot 0 is two separate cutouts, not one plain
  * semicircle: a shallow wide dip inset clear of the corner radius, plus a
@@ -133,6 +136,9 @@ export const dockTabbarStyles = StyleSheet.create({
   iconGlyph: {
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  label: {
+    marginTop: DOCK_TABBAR_LABEL_MARGIN_TOP,
   },
   notchIndicator: {
     ...StyleSheet.absoluteFillObject,

@@ -9,6 +9,8 @@ import {
 } from '@wavemaker-ai/app-rn-runtime/core/base.component';
 import WmIcon from '@wavemaker-ai/app-rn-runtime/components/basic/icon/icon.component';
 import type { WmIconStyles } from '@wavemaker-ai/app-rn-runtime/components/basic/icon/icon.styles';
+import WmLabel from '@wavemaker-ai/app-rn-runtime/components/basic/label/label.component';
+import type { WmLabelStyles } from '@wavemaker-ai/app-rn-runtime/components/basic/label/label.styles';
 import { DockTabbar } from '@wavemaker/rn-components/dock_tabbar';
 import type { DockTabbarItem } from '@wavemaker/rn-components/dock_tabbar';
 
@@ -18,15 +20,18 @@ export type WmDockTabbarStyles = BaseStyles & {
   barSurface: AllStyle;
   tabItem: AllStyle;
   iconGlyph: AllStyle;
+  label: AllStyle;
   notchIndicator: AllStyle;
   icon: WmIconStyles;
+  itemLabel: WmLabelStyles;
 };
 
 /**
- * DockTabbar is fixed at 5 icon-only slots (DOCK_TABBAR_ITEM_COUNT), so
- * Studio's static prop schema exposes each slot as its own flat
+ * DockTabbar is fixed at 5 slots (DOCK_TABBAR_ITEM_COUNT), so Studio's static
+ * prop schema exposes each slot as its own flat
  * item<N>iconclass/item<N>iconurl/item<N>label prop rather than a dataset
- * binding.
+ * binding. `item<N>label` doubles as the tab's visible label text (rendered
+ * below its icon) and its accessibility label.
  */
 export class WmDockTabbarProps extends BaseProps {
   activeindex?: number;
@@ -59,7 +64,7 @@ export class WmDockTabbarState extends BaseComponentState<WmDockTabbarProps> {}
 
 /**
  * Studio widget wrapping the standalone @wavemaker/rn-components DockTabbar —
- * a floating 5-tab icon-only bottom bar with an active-tab notch indicator.
+ * a floating 5-tab bottom bar with an active-tab notch indicator.
  */
 export default class WmDockTabbar extends BaseComponent<
   WmDockTabbarProps,
@@ -92,6 +97,17 @@ export default class WmDockTabbar extends BaseComponent<
           accessible={false}
         />
       ),
+      label: item.label
+        ? () => (
+            <WmLabel
+              id={this.getTestId(`item_${index}_label`)}
+              styles={this.styles.itemLabel}
+              name={`${props.name}_item_${index}_label`}
+              caption={item.label}
+              accessible={false}
+            />
+          )
+        : undefined,
     }));
 
     return (
@@ -113,6 +129,7 @@ export default class WmDockTabbar extends BaseComponent<
           barSurface: this.styles.barSurface as unknown as StyleProp<ViewStyle>,
           tabItem: this.styles.tabItem as unknown as StyleProp<ViewStyle>,
           iconGlyph: this.styles.iconGlyph as unknown as StyleProp<ViewStyle>,
+          label: this.styles.label as unknown as StyleProp<ViewStyle>,
           notchIndicator: this.styles.notchIndicator as unknown as StyleProp<ViewStyle>,
         }}
         onChange={(index) => this.invokeEventCallback('onChange', [this, index])}

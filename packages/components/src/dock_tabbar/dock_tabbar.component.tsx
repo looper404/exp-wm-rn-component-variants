@@ -7,11 +7,12 @@ import { useDockTabbarStyles } from './use-dock_tabbar-styles';
 
 /**
  * Dock Tabbar — a single floating pill, 358x64dp with a 32dp (full
- * height/2) radius and no drop shadow. Five icon-only tabs are spaced evenly
- * across it; the active tab renders its glyph filled/solid in the brand
- * accent color, inactive tabs render outline/stroked in muted grey. There is
- * no active pill background — the filled glyph + color is the only active
- * indicator.
+ * height/2) radius and no drop shadow. Five tabs are spaced evenly across it;
+ * the active tab renders its glyph filled/solid in the brand accent color,
+ * inactive tabs render outline/stroked in muted grey. There is no active
+ * pill background — the filled glyph + color is the only active indicator.
+ * Each item's icon and optional label come from its `items` entry —
+ * `icon` renders the glyph, `label` (when provided) renders below it.
  *
  * A decorative notch is cut into the top edge above the active tab — a
  * shallow wide dip inset clear of the corner radius, plus a small dot nested
@@ -159,6 +160,7 @@ export function DockTabbar(partial: DockTabbarProps) {
               <View style={resolved.iconGlyph}>
                 {item.icon({ size: resolved.iconSize, color, active })}
               </View>
+              {item.label ? <View style={resolved.label}>{item.label(index)}</View> : null}
             </Pressable>
           );
         })}
