@@ -67,4 +67,11 @@ describe('useDockTabbarStyles', () => {
     );
     expect(flatten(overridden.current.label).marginTop).toBe(6);
   });
+
+  it('constrains the label to its own slot so overflow clips instead of bleeding into the next tab', () => {
+    const { result } = renderHook(() => useDockTabbarStyles({ disabled: false }));
+    const label = flatten(result.current.label);
+    expect(label.width).toBe('100%');
+    expect(label.overflow).toBe('hidden');
+  });
 });

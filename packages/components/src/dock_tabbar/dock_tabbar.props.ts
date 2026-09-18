@@ -10,7 +10,15 @@ export interface DockTabbarItemIconArgs {
 export interface DockTabbarItem {
   /** Renders the item's glyph; receives the resolved size/color/active state for the current slot. */
   icon: (args: DockTabbarItemIconArgs) => ReactNode;
-  /** Renders the item's label below its icon; receives the slot's index. Omit to render no label. */
+  /**
+   * Renders the item's label below its icon; receives the slot's index. Omit
+   * to render no label. The label region clips overflow at its own slot's
+   * width, but for plain-text labels callers should still render with
+   * `<Text numberOfLines={1} ellipsizeMode="tail">` — `DockTabbar` can't
+   * impose that on an arbitrary `ReactNode`, and this prop is commonly fed
+   * user- or Studio-authored strings (and i18n, where translations often run
+   * longer) that can otherwise clip mid-word.
+   */
   label?: (index: number) => ReactNode;
   /** Falls back to `Tab ${index + 1}` when omitted. */
   accessibilityLabel?: string;

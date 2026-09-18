@@ -139,6 +139,14 @@ export const dockTabbarStyles = StyleSheet.create({
   },
   label: {
     marginTop: DOCK_TABBAR_LABEL_MARGIN_TOP,
+    // Constrains the label to its own slot — `tabItem` is `flex: 1` with no
+    // explicit width, so without this a long/localized label (e.g. a
+    // Studio-authored string, or "Settings" translated to a longer word)
+    // overflows past its slot and visually collides with the neighboring
+    // tab instead of clipping within its own bounds.
+    width: '100%',
+    alignItems: 'center',
+    overflow: 'hidden',
   },
   notchIndicator: {
     ...StyleSheet.absoluteFillObject,

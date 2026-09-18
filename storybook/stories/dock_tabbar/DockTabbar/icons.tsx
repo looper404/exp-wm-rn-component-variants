@@ -76,6 +76,30 @@ export const demoItemsWithLabels: DockTabbarItem[] = GLYPH_NAMES.map((name) => {
   return {
     accessibilityLabel: displayName,
     icon: (args) => <Glyph name={name} {...args} />,
-    label: () => <Text style={{ fontSize: 11, color: '#6E6E73' }}>{displayName}</Text>,
+    label: () => (
+      <Text style={{ fontSize: 11, color: '#6E6E73' }} numberOfLines={1} ellipsizeMode="tail">
+        {displayName}
+      </Text>
+    ),
   };
 });
+
+/**
+ * Same as `demoItemsWithLabels`, but the last slot uses a longer word
+ * ("Notifications" in place of "Settings") to exercise the label-overflow
+ * fix — the slot should clip/ellipsize the label within its own bounds
+ * instead of bleeding into the neighboring "Profile" tab.
+ */
+export const demoItemsWithLongLabel: DockTabbarItem[] = demoItemsWithLabels.map((item, index) =>
+  index === demoItemsWithLabels.length - 1
+    ? {
+        ...item,
+        accessibilityLabel: 'Notifications',
+        label: () => (
+          <Text style={{ fontSize: 11, color: '#6E6E73' }} numberOfLines={1} ellipsizeMode="tail">
+            Notifications
+          </Text>
+        ),
+      }
+    : item
+);
