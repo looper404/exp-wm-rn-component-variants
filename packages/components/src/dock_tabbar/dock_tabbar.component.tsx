@@ -1,0 +1,174 @@
+import React, { useEffect, useId, useRef, useState } from 'react';
+import { Animated, Pressable, View } from 'react-native';
+import Svg, { Circle, Defs, Mask, Path, Rect } from 'react-native-svg';
+import { createDockTabbarProps, type DockTabbarProps } from './dock_tabbar.props';
+import { computeDockTabbarNotchGeometry, DOCK_TABBAR_NOTCH_SLIDE_DURATION_MS } from './dock_tabbar.styles';
+import { useDockTabbarStyles } from './use-dock_tabbar-styles';
+
+/**
+ * Dock Tabbar — a single floating pill, 358x64dp with a 32dp (full
+ * height/2) radius and no drop shadow. Five tabs are spaced evenly across it;
+ * the active tab renders its glyph filled/solid in the brand accent color,
+ * inactive tabs render outline/stroked in muted grey. There is no active
+ * pill background — the filled glyph + color is the only active indicator.
+ * Each item's icon and optional label come from its `items` entry —
+ * `icon` renders the glyph, `label` (when provided) renders below it.
+ *
+ * A decorative notch is cut into the top edge above the active tab — a
+ * shallow wide dip inset clear of the corner radius, plus a small dot nested
+ * inside it (not one plain semicircle, which distorts the corner). The dip
+ * is a true cutout via an SVG mask; the dot is a solid shape (matching the
+ * source design, which shows it opaque regardless of backdrop), so it is
+ * never affected by the dip's transparency/color. Both track `activeIndex`,
+ * sliding to sit above whichever tab is active, clamped so they never
+ * overlap the bar's rounded corners for the first/last slots.
+ *
+ * `classname` is declared for the Studio wrapper/metadata layer, matching
+ * the WaveMaker widget contract — resolving a class name needs a runtime
+ * this standalone package intentionally doesn't depend on, so it stays
+ * unwired here.
+ */
+export function DockTabbar(partial: DockTabbarProps) {
+  const props = createDockTabbarProps(partial);
+  const {
+    accessibilityLabel,
+    activeIndex,
+    disabled = false,
+    dotColor,
+    items,
+    name,
+    show = true,
+    styles,
+    testID,
+    onChange,
+    onLongPress,
+    onTap,
+  } = props;
+
+  const resolved = useDockTabbarStyles({ disabled, dotColor, styles });
+  const maskId = `dock-tabbar-notch-mask-${useId().replace(/[^a-zA-Z0-9]/g, '')}`;
+
+  // The notch (dip + dot) slides horizontally to the newly active slot
+  // instead of snapping — `slideIndex` is a fractional, animated stand-in for
+  // `activeIndex` that `computeDockTabbarNotchGeometry` interpolates through
+  // on every tick, since the dip is drawn as an SVG path rather than a
+  // transform-only shape.
+  const [slideIndex, setSlideIndex] = useState(activeIndex);
+  const slideValue = useRef(new Animated.Value(activeIndex)).current;
+
+  useEffect(() => {
+    const listenerId = slideValue.addListener(({ value }) => setSlideIndex(value));
+    return () => slideValue.removeListener(listenerId);
+  }, [slideValue]);
+
+  useEffect(() => {
+    Animated.timing(slideValue, {
+      toValue: activeIndex,
+      duration: DOCK_TABBAR_NOTCH_SLIDE_DURATION_MS,
+      useNativeDriver: false,
+    }).start();
+  }, [activeIndex, slideValue]);
+
+  if (!show) {
+    return null;
+  }
+
+  const isTransparentNotch = resolved.palette.notchColor === 'transparent';
+
+  // The dot is nested inside the dip's depth (see TRA-14), so it overlaps
+  // the dip's cutout region while staying inset from the dip's own edges so
+  // the two still read as distinct shapes rather than merging into one.
+  const { dipPath, dotCenterX, dotCenterY } = computeDockTabbarNotchGeometry({
+    activeIndex: slideIndex,
+    itemCount: items.length,
+    barWidth: resolved.barWidth,
+    barRadius: resolved.barRadius,
+    notchDipWidth: resolved.notchDipWidth,
+    notchDipDepth: resolved.notchDipDepth,
+  });
+
+  const handlePress = (index: number) => {
+    if (disabled) {
+      return;
+    }
+    onTap?.();
+    onChange?.(index);
+  };
+
+  const handleLongPress = (index: number) => {
+    if (disabled) {
+      return;
+    }
+    onLongPress?.(index);
+  };
+
+  return (
+    <View style={resolved.root} testID={testID} accessibilityLabel={accessibilityLabel ?? name}>
+      <View style={resolved.barSurface}>
+        <Svg
+          width={resolved.barWidth}
+          height={resolved.barHeight}
+          viewBox={`0 0 ${resolved.barWidth} ${resolved.barHeight}`}
+          style={resolved.notchIndicator}
+        >
+          {isTransparentNotch ? (
+            <Defs>
+              <Mask id={maskId}>
+                <Rect
+                  x={0}
+                  y={0}
+                  width={resolved.barWidth}
+                  height={resolved.barHeight}
+                  rx={resolved.barRadius}
+                  ry={resolved.barRadius}
+                  fill="#FFFFFF"
+                />
+                <Path d={dipPath} fill="#000000" />
+              </Mask>
+            </Defs>
+          ) : null}
+          <Rect
+            x={0}
+            y={0}
+            width={resolved.barWidth}
+            height={resolved.barHeight}
+            rx={resolved.barRadius}
+            ry={resolved.barRadius}
+            fill={resolved.palette.barFill}
+            mask={isTransparentNotch ? `url(#${maskId})` : undefined}
+          />
+          {!isTransparentNotch ? <Path d={dipPath} fill={resolved.palette.notchColor} /> : null}
+          <Circle cx={dotCenterX} cy={dotCenterY} r={resolved.notchDotRadius} fill={resolved.palette.notchDotColor} />
+        </Svg>
+        {items.map((item, index) => {
+          const active = index === activeIndex;
+          const itemLabel = item.accessibilityLabel ?? `Tab ${index + 1}`;
+          const color = active ? resolved.palette.activeIconColor : resolved.palette.inactiveIconColor;
+
+          return (
+            <Pressable
+              key={index}
+              style={resolved.tabItem}
+              disabled={disabled}
+              accessibilityRole="tab"
+              aria-selected={active}
+              accessibilityLabel={itemLabel}
+              testID={testID ? `${testID}_item_${index}` : undefined}
+              onPress={() => handlePress(index)}
+              onLongPress={() => handleLongPress(index)}
+            >
+              <View style={resolved.iconGlyph}>
+                {item.icon({ size: resolved.iconSize, color, active })}
+              </View>
+              {item.label ? <View style={resolved.label}>{item.label(index)}</View> : null}
+            </Pressable>
+          );
+        })}
+      </View>
+    </View>
+  );
+}
+
+DockTabbar.displayName = 'DockTabbar';
+
+export default DockTabbar;
