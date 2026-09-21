@@ -90,7 +90,7 @@ concrete handling in the wrapper's `renderWidget`:
   `@wavemaker/rn-components` widget that calls
   `this.invokeEventCallback('<eventName>', [...])`? An event with no
   matching `invokeEventCallback` call is a gap.
-- **Method**: for widget-specific methods only (see note above) — is it
+- **Method**: for widget-specific methods only (see Out of bounds) — is it
   implemented as a class method on the wrapper?
 
 When a property/event is missing, check *why* by also looking at the
