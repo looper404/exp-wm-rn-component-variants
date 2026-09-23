@@ -11,6 +11,7 @@ const meta = {
     children: <Text>This action cannot be undone.</Text>,
   },
   argTypes: {
+    visible: { control: 'boolean' },
     testID: { control: 'text' },
   },
   parameters: {

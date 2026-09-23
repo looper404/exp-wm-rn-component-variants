@@ -10,6 +10,7 @@ const meta = {
     children: <Text>This action cannot be undone.</Text>,
   },
   argTypes: {
+    visible: { control: 'boolean' },
     title: { control: 'text' },
   },
 } satisfies Meta<typeof Dialog>;
