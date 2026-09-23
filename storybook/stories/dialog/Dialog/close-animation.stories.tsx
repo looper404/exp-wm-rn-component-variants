@@ -11,7 +11,10 @@ const meta = {
     children: <Text>This action cannot be undone.</Text>,
   },
   argTypes: {
-    closeAnimation: { control: 'select', options: ['fade', 'slide', 'scale', 'none'] },
+    closeAnimation: {
+      control: 'select',
+      options: ['fade', 'slide', 'slideDown', 'slideLeft', 'slideRight', 'scale', 'bounce', 'none'],
+    },
     visible: { control: 'boolean' },
   },
   parameters: {
@@ -32,6 +35,14 @@ export const Default: Story = {};
 
 export const Slide: Story = { args: { closeAnimation: 'slide' } };
 
+export const SlideDown: Story = { args: { closeAnimation: 'slideDown' } };
+
+export const SlideLeft: Story = { args: { closeAnimation: 'slideLeft' } };
+
+export const SlideRight: Story = { args: { closeAnimation: 'slideRight' } };
+
 export const Scale: Story = { args: { closeAnimation: 'scale' } };
+
+export const Bounce: Story = { args: { closeAnimation: 'bounce' } };
 
 export const None: Story = { args: { closeAnimation: 'none' } };

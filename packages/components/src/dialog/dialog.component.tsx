@@ -1,10 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Animated, Modal, Pressable, Text, View } from 'react-native';
 import type { DialogAnimationType, DialogProps } from './dialog.props';
-import { DIALOG_HIDDEN_STATE, DIALOG_IDENTITY_STATE } from './dialog.styles';
+import { DIALOG_HIDDEN_STATE, DIALOG_IDENTITY_STATE, DIALOG_SPRING_ANIMATIONS } from './dialog.styles';
 import { useDialogStyles } from './use-dialog-styles';
 
 const hiddenStateOf = (animation: DialogAnimationType) => DIALOG_HIDDEN_STATE[animation];
+
+/** `bounce` overshoots via a spring; every other animation eases over `duration`. */
+const animateTo = (value: Animated.Value, toValue: number, animation: DialogAnimationType, duration: number) =>
+  DIALOG_SPRING_ANIMATIONS.has(animation)
+    ? Animated.spring(value, { toValue, useNativeDriver: false, friction: 5, tension: 40 })
+    : Animated.timing(value, { toValue, duration, useNativeDriver: false });
 
 export const Dialog: React.FC<DialogProps> = ({
   visible,
@@ -26,6 +32,7 @@ export const Dialog: React.FC<DialogProps> = ({
   const [mounted, setMounted] = useState(visible);
 
   const opacity = useRef(new Animated.Value(hiddenStateOf(openAnimation).opacity)).current;
+  const translateX = useRef(new Animated.Value(hiddenStateOf(openAnimation).translateX)).current;
   const translateY = useRef(new Animated.Value(hiddenStateOf(openAnimation).translateY)).current;
   const scale = useRef(new Animated.Value(hiddenStateOf(openAnimation).scale)).current;
   const backdropOpacity = useRef(new Animated.Value(0)).current;
@@ -53,6 +60,7 @@ export const Dialog: React.FC<DialogProps> = ({
         // in, instead of continuing smoothly from the current values.
         const hidden = hiddenStateOf(openAnimation);
         opacity.setValue(hidden.opacity);
+        translateX.setValue(hidden.translateX);
         translateY.setValue(hidden.translateY);
         scale.setValue(hidden.scale);
         backdropOpacity.setValue(0);
@@ -60,21 +68,10 @@ export const Dialog: React.FC<DialogProps> = ({
       isClosing.current = false;
 
       Animated.parallel([
-        Animated.timing(opacity, {
-          toValue: DIALOG_IDENTITY_STATE.opacity,
-          duration: animationDuration,
-          useNativeDriver: false,
-        }),
-        Animated.timing(translateY, {
-          toValue: DIALOG_IDENTITY_STATE.translateY,
-          duration: animationDuration,
-          useNativeDriver: false,
-        }),
-        Animated.timing(scale, {
-          toValue: DIALOG_IDENTITY_STATE.scale,
-          duration: animationDuration,
-          useNativeDriver: false,
-        }),
+        animateTo(opacity, DIALOG_IDENTITY_STATE.opacity, openAnimation, animationDuration),
+        animateTo(translateX, DIALOG_IDENTITY_STATE.translateX, openAnimation, animationDuration),
+        animateTo(translateY, DIALOG_IDENTITY_STATE.translateY, openAnimation, animationDuration),
+        animateTo(scale, DIALOG_IDENTITY_STATE.scale, openAnimation, animationDuration),
         Animated.timing(backdropOpacity, {
           toValue: 1,
           duration: animationDuration,
@@ -86,13 +83,10 @@ export const Dialog: React.FC<DialogProps> = ({
       const hidden = hiddenStateOf(closeAnimation);
 
       Animated.parallel([
-        Animated.timing(opacity, { toValue: hidden.opacity, duration: animationDuration, useNativeDriver: false }),
-        Animated.timing(translateY, {
-          toValue: hidden.translateY,
-          duration: animationDuration,
-          useNativeDriver: false,
-        }),
-        Animated.timing(scale, { toValue: hidden.scale, duration: animationDuration, useNativeDriver: false }),
+        animateTo(opacity, hidden.opacity, closeAnimation, animationDuration),
+        animateTo(translateX, hidden.translateX, closeAnimation, animationDuration),
+        animateTo(translateY, hidden.translateY, closeAnimation, animationDuration),
+        animateTo(scale, hidden.scale, closeAnimation, animationDuration),
         Animated.timing(backdropOpacity, { toValue: 0, duration: animationDuration, useNativeDriver: false }),
       ]).start(({ finished }) => {
         if (finished && !isUnmounted.current) {
@@ -127,7 +121,7 @@ export const Dialog: React.FC<DialogProps> = ({
         />
         <Pressable onPress={() => undefined} testID={testID ? `${testID}_card` : undefined}>
           <Animated.View
-            style={[resolved.root, { opacity, transform: [{ translateY }, { scale }] }]}
+            style={[resolved.root, { opacity, transform: [{ translateX }, { translateY }, { scale }] }]}
             accessibilityViewIsModal
             accessibilityLabel={accessibilityLabel ?? title}
             testID={testID ? `${testID}_content` : undefined}

@@ -2,10 +2,24 @@ import type { ReactNode } from 'react';
 import type { DialogPalette, DialogStylesProp } from './dialog.styles';
 
 /**
- * `none` swaps content in/out instantly with no transition — useful when the
- * caller wants only the backdrop to fade.
+ * - `fade` — cross-fade only.
+ * - `slide` — slides up from the bottom (bottom-sheet style).
+ * - `slideDown` — slides in from the top (banner/notification style).
+ * - `slideLeft` / `slideRight` — slides in from the right/left edge (side-panel style).
+ * - `scale` — grows/shrinks from a slightly smaller size while fading.
+ * - `bounce` — pops in with a spring overshoot instead of an eased duration curve.
+ * - `none` — swaps content in/out instantly with no transition — useful when
+ *   the caller wants only the backdrop to fade.
  */
-export type DialogAnimationType = 'fade' | 'slide' | 'scale' | 'none';
+export type DialogAnimationType =
+  | 'fade'
+  | 'slide'
+  | 'slideDown'
+  | 'slideLeft'
+  | 'slideRight'
+  | 'scale'
+  | 'bounce'
+  | 'none';
 
 export interface DialogProps {
   /** Controls whether the dialog is shown; toggling drives the open/close animation. */

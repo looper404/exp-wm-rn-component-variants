@@ -70,7 +70,7 @@ describe('Dialog', () => {
     expect(screen.queryByTestId('confirm-dialog')).toBeNull();
   });
 
-  it.each(['fade', 'slide', 'scale', 'none'] as const)(
+  it.each(['fade', 'slide', 'slideDown', 'slideLeft', 'slideRight', 'scale', 'bounce', 'none'] as const)(
     'opens and closes with the %s animation type',
     (animation) => {
       const { rerender } = render(
@@ -93,6 +93,24 @@ describe('Dialog', () => {
     rerender(<Dialog visible={false} openAnimation="scale" closeAnimation="slide" testID="confirm-dialog" />);
     expect(screen.queryByTestId('confirm-dialog')).toBeNull();
   });
+
+  it('drives the bounce animation with Animated.spring instead of Animated.timing', () => {
+    const springSpy = vi.spyOn(Animated, 'spring');
+    const timingSpy = vi.spyOn(Animated, 'timing');
+    render(<Dialog visible openAnimation="bounce" testID="confirm-dialog" />);
+    expect(springSpy).toHaveBeenCalled();
+    // The backdrop always fades linearly, even when the content bounces.
+    expect(timingSpy).toHaveBeenCalled();
+  });
+
+  it.each(['slideLeft', 'slideRight'] as const)(
+    'animates translateX from the %s hidden pose',
+    (animation) => {
+      const setValueSpy = vi.spyOn(Animated.Value.prototype, 'setValue');
+      render(<Dialog visible openAnimation={animation} testID="confirm-dialog" />);
+      expect(setValueSpy).toHaveBeenCalledWith(DIALOG_HIDDEN_STATE[animation].translateX);
+    }
+  );
 
   it('forwards testID to header, body, and footer regions', () => {
     render(

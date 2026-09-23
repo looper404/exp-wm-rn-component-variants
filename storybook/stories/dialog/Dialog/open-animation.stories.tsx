@@ -11,7 +11,10 @@ const meta = {
     children: <Text>This action cannot be undone.</Text>,
   },
   argTypes: {
-    openAnimation: { control: 'select', options: ['fade', 'slide', 'scale', 'none'] },
+    openAnimation: {
+      control: 'select',
+      options: ['fade', 'slide', 'slideDown', 'slideLeft', 'slideRight', 'scale', 'bounce', 'none'],
+    },
     visible: { control: 'boolean' },
   },
   parameters: {
@@ -30,8 +33,21 @@ type Story = StoryObj<typeof meta>;
 /** `openAnimation` defaults to `fade`. */
 export const Default: Story = {};
 
+/** Bottom-sheet style entrance — the most common mobile dialog animation. */
 export const Slide: Story = { args: { openAnimation: 'slide' } };
 
+/** Banner/notification style entrance from the top edge. */
+export const SlideDown: Story = { args: { openAnimation: 'slideDown' } };
+
+/** Side-panel style entrance sliding in from the right edge. */
+export const SlideLeft: Story = { args: { openAnimation: 'slideLeft' } };
+
+/** Side-panel style entrance sliding in from the left edge. */
+export const SlideRight: Story = { args: { openAnimation: 'slideRight' } };
+
 export const Scale: Story = { args: { openAnimation: 'scale' } };
+
+/** Spring-driven pop-in that overshoots before settling, like iOS/Material success alerts. */
+export const Bounce: Story = { args: { openAnimation: 'bounce' } };
 
 export const None: Story = { args: { openAnimation: 'none' } };

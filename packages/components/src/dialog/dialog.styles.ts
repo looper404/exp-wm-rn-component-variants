@@ -27,23 +27,49 @@ export const DIALOG_DEFAULT_PALETTE: DialogPalette = {
 
 interface DialogAnimationPhaseState {
   opacity: number;
+  translateX: number;
   translateY: number;
   scale: number;
 }
 
 /**
- * The collapsed/off-screen `{ opacity, translateY, scale }` a dialog animates
- * from (opening) or to (closing) for each animation type. `DIALOG_IDENTITY_STATE`
- * is the fully-visible state both directions converge on/diverge from.
+ * The collapsed/off-screen `{ opacity, translateX, translateY, scale }` a dialog
+ * animates from (opening) or to (closing) for each animation type.
+ * `DIALOG_IDENTITY_STATE` is the fully-visible state both directions converge
+ * on/diverge from.
  */
-export const DIALOG_HIDDEN_STATE: Record<'fade' | 'slide' | 'scale' | 'none', DialogAnimationPhaseState> = {
-  fade: { opacity: 0, translateY: 0, scale: 1 },
-  slide: { opacity: 1, translateY: 320, scale: 1 },
-  scale: { opacity: 0, translateY: 0, scale: 0.85 },
-  none: { opacity: 1, translateY: 0, scale: 1 },
+export const DIALOG_HIDDEN_STATE: Record<
+  'fade' | 'slide' | 'slideDown' | 'slideLeft' | 'slideRight' | 'scale' | 'bounce' | 'none',
+  DialogAnimationPhaseState
+> = {
+  fade: { opacity: 0, translateX: 0, translateY: 0, scale: 1 },
+  // Bottom-sheet style entrance — the most common mobile dialog animation.
+  slide: { opacity: 1, translateX: 0, translateY: 320, scale: 1 },
+  // Banner/notification style entrance from the top edge.
+  slideDown: { opacity: 1, translateX: 0, translateY: -320, scale: 1 },
+  // Side-panel style entrance sliding in from the right edge.
+  slideLeft: { opacity: 1, translateX: 320, translateY: 0, scale: 1 },
+  // Side-panel style entrance sliding in from the left edge.
+  slideRight: { opacity: 1, translateX: -320, translateY: 0, scale: 1 },
+  scale: { opacity: 0, translateX: 0, translateY: 0, scale: 0.85 },
+  // Playful pop-in driven by a spring rather than a timing curve — overshoots
+  // past the identity scale before settling, like iOS/Material success alerts.
+  bounce: { opacity: 0, translateX: 0, translateY: 0, scale: 0.5 },
+  none: { opacity: 1, translateX: 0, translateY: 0, scale: 1 },
 };
 
-export const DIALOG_IDENTITY_STATE: DialogAnimationPhaseState = { opacity: 1, translateY: 0, scale: 1 };
+export const DIALOG_IDENTITY_STATE: DialogAnimationPhaseState = {
+  opacity: 1,
+  translateX: 0,
+  translateY: 0,
+  scale: 1,
+};
+
+/**
+ * Animation types that animate via `Animated.spring` (overshoot/settle)
+ * instead of `Animated.timing` (linear/eased duration curve).
+ */
+export const DIALOG_SPRING_ANIMATIONS: ReadonlySet<string> = new Set(['bounce']);
 
 export const dialogStyles = StyleSheet.create({
   backdrop: {
