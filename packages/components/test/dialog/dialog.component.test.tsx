@@ -1,8 +1,8 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { Animated, Text } from 'react-native';
+import { Animated, Dimensions, Text } from 'react-native';
 import { Dialog } from '../../src/dialog';
-import { DIALOG_HIDDEN_STATE } from '../../src/dialog/dialog.styles';
+import { DIALOG_GENIE_COLLAPSED_SCALE, DIALOG_HIDDEN_STATE } from '../../src/dialog/dialog.styles';
 
 describe('Dialog', () => {
   afterEach(() => {
@@ -70,7 +70,7 @@ describe('Dialog', () => {
     expect(screen.queryByTestId('confirm-dialog')).toBeNull();
   });
 
-  it.each(['fade', 'slide', 'slideDown', 'slideLeft', 'slideRight', 'scale', 'bounce', 'none'] as const)(
+  it.each(['fade', 'slide', 'slideDown', 'slideLeft', 'slideRight', 'scale', 'bounce', 'genie', 'none'] as const)(
     'opens and closes with the %s animation type',
     (animation) => {
       const { rerender } = render(
@@ -111,6 +111,23 @@ describe('Dialog', () => {
       expect(setValueSpy).toHaveBeenCalledWith(DIALOG_HIDDEN_STATE[animation].translateX);
     }
   );
+
+  it('collapses the genie animation toward its own center when no originPoint is given', () => {
+    const setValueSpy = vi.spyOn(Animated.Value.prototype, 'setValue');
+    render(<Dialog visible openAnimation="genie" testID="confirm-dialog" />);
+    expect(setValueSpy).toHaveBeenCalledWith(0);
+    expect(setValueSpy).toHaveBeenCalledWith(DIALOG_GENIE_COLLAPSED_SCALE);
+  });
+
+  it('collapses the genie animation toward the given originPoint', () => {
+    const { width, height } = Dimensions.get('window');
+    const originPoint = { x: 40, y: 90 };
+    const setValueSpy = vi.spyOn(Animated.Value.prototype, 'setValue');
+    render(<Dialog visible openAnimation="genie" originPoint={originPoint} testID="confirm-dialog" />);
+    expect(setValueSpy).toHaveBeenCalledWith(originPoint.x - width / 2);
+    expect(setValueSpy).toHaveBeenCalledWith(originPoint.y - height / 2);
+    expect(setValueSpy).toHaveBeenCalledWith(DIALOG_GENIE_COLLAPSED_SCALE);
+  });
 
   it('forwards testID to header, body, and footer regions', () => {
     render(

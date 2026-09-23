@@ -13,7 +13,7 @@ const meta = {
   argTypes: {
     openAnimation: {
       control: 'select',
-      options: ['fade', 'slide', 'slideDown', 'slideLeft', 'slideRight', 'scale', 'bounce', 'none'],
+      options: ['fade', 'slide', 'slideDown', 'slideLeft', 'slideRight', 'scale', 'bounce', 'genie', 'none'],
     },
     visible: { control: 'boolean' },
   },
@@ -49,5 +49,11 @@ export const Scale: Story = { args: { openAnimation: 'scale' } };
 
 /** Spring-driven pop-in that overshoots before settling, like iOS/Material success alerts. */
 export const Bounce: Story = { args: { openAnimation: 'bounce' } };
+
+/**
+ * Grows out of `originPoint` — the screen coordinates of the control that
+ * triggered the dialog — like a window opening from the Dock in macOS.
+ */
+export const Genie: Story = { args: { openAnimation: 'genie', originPoint: { x: 40, y: 780 } } };
 
 export const None: Story = { args: { openAnimation: 'none' } };

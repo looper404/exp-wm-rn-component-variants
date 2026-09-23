@@ -1,10 +1,36 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Animated, Modal, Pressable, Text, View } from 'react-native';
-import type { DialogAnimationType, DialogProps } from './dialog.props';
-import { DIALOG_HIDDEN_STATE, DIALOG_IDENTITY_STATE, DIALOG_SPRING_ANIMATIONS } from './dialog.styles';
+import { Animated, Dimensions, Modal, Pressable, Text, View } from 'react-native';
+import type { DialogAnimationType, DialogOriginPoint, DialogProps } from './dialog.props';
+import {
+  DIALOG_GENIE_COLLAPSED_SCALE,
+  DIALOG_HIDDEN_STATE,
+  DIALOG_IDENTITY_STATE,
+  DIALOG_SPRING_ANIMATIONS,
+} from './dialog.styles';
+import type { DialogAnimationPhaseState } from './dialog.styles';
 import { useDialogStyles } from './use-dialog-styles';
 
-const hiddenStateOf = (animation: DialogAnimationType) => DIALOG_HIDDEN_STATE[animation];
+/**
+ * `genie`'s hidden pose is dynamic (it depends on where the triggering
+ * control was on screen), unlike every other animation's fixed offset — it
+ * collapses toward `originPoint`, or straight down to a point at its own
+ * center when no origin was given.
+ */
+const genieHiddenState = (originPoint?: DialogOriginPoint): DialogAnimationPhaseState => {
+  if (!originPoint) {
+    return { opacity: 0, translateX: 0, translateY: 0, scale: DIALOG_GENIE_COLLAPSED_SCALE };
+  }
+  const { width, height } = Dimensions.get('window');
+  return {
+    opacity: 0,
+    translateX: originPoint.x - width / 2,
+    translateY: originPoint.y - height / 2,
+    scale: DIALOG_GENIE_COLLAPSED_SCALE,
+  };
+};
+
+const hiddenStateOf = (animation: DialogAnimationType, originPoint?: DialogOriginPoint) =>
+  animation === 'genie' ? genieHiddenState(originPoint) : DIALOG_HIDDEN_STATE[animation];
 
 /** `bounce` overshoots via a spring; every other animation eases over `duration`. */
 const animateTo = (value: Animated.Value, toValue: number, animation: DialogAnimationType, duration: number) =>
@@ -20,6 +46,7 @@ export const Dialog: React.FC<DialogProps> = ({
   openAnimation = 'fade',
   closeAnimation = 'fade',
   animationDuration = 250,
+  originPoint,
   dismissable = true,
   onRequestClose,
   onClosed,
@@ -31,10 +58,10 @@ export const Dialog: React.FC<DialogProps> = ({
   const resolved = useDialogStyles({ styles, palette });
   const [mounted, setMounted] = useState(visible);
 
-  const opacity = useRef(new Animated.Value(hiddenStateOf(openAnimation).opacity)).current;
-  const translateX = useRef(new Animated.Value(hiddenStateOf(openAnimation).translateX)).current;
-  const translateY = useRef(new Animated.Value(hiddenStateOf(openAnimation).translateY)).current;
-  const scale = useRef(new Animated.Value(hiddenStateOf(openAnimation).scale)).current;
+  const opacity = useRef(new Animated.Value(hiddenStateOf(openAnimation, originPoint).opacity)).current;
+  const translateX = useRef(new Animated.Value(hiddenStateOf(openAnimation, originPoint).translateX)).current;
+  const translateY = useRef(new Animated.Value(hiddenStateOf(openAnimation, originPoint).translateY)).current;
+  const scale = useRef(new Animated.Value(hiddenStateOf(openAnimation, originPoint).scale)).current;
   const backdropOpacity = useRef(new Animated.Value(0)).current;
   const isUnmounted = useRef(false);
   const isClosing = useRef(false);
@@ -58,7 +85,7 @@ export const Dialog: React.FC<DialogProps> = ({
         // while the close animation is still in flight) — otherwise this
         // would force a visible jump to fully-hidden before animating back
         // in, instead of continuing smoothly from the current values.
-        const hidden = hiddenStateOf(openAnimation);
+        const hidden = hiddenStateOf(openAnimation, originPoint);
         opacity.setValue(hidden.opacity);
         translateX.setValue(hidden.translateX);
         translateY.setValue(hidden.translateY);
@@ -80,7 +107,7 @@ export const Dialog: React.FC<DialogProps> = ({
       ]).start();
     } else if (mounted) {
       isClosing.current = true;
-      const hidden = hiddenStateOf(closeAnimation);
+      const hidden = hiddenStateOf(closeAnimation, originPoint);
 
       Animated.parallel([
         animateTo(opacity, hidden.opacity, closeAnimation, animationDuration),

@@ -13,7 +13,7 @@ const meta = {
   argTypes: {
     closeAnimation: {
       control: 'select',
-      options: ['fade', 'slide', 'slideDown', 'slideLeft', 'slideRight', 'scale', 'bounce', 'none'],
+      options: ['fade', 'slide', 'slideDown', 'slideLeft', 'slideRight', 'scale', 'bounce', 'genie', 'none'],
     },
     visible: { control: 'boolean' },
   },
@@ -44,5 +44,8 @@ export const SlideRight: Story = { args: { closeAnimation: 'slideRight' } };
 export const Scale: Story = { args: { closeAnimation: 'scale' } };
 
 export const Bounce: Story = { args: { closeAnimation: 'bounce' } };
+
+/** Collapses back into `originPoint`, like a window minimizing to the Dock in macOS. */
+export const Genie: Story = { args: { closeAnimation: 'genie', originPoint: { x: 40, y: 780 } } };
 
 export const None: Story = { args: { closeAnimation: 'none' } };

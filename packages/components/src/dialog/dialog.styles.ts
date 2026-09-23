@@ -25,7 +25,7 @@ export const DIALOG_DEFAULT_PALETTE: DialogPalette = {
   border: '#e2e8f0',
 };
 
-interface DialogAnimationPhaseState {
+export interface DialogAnimationPhaseState {
   opacity: number;
   translateX: number;
   translateY: number;
@@ -70,6 +70,9 @@ export const DIALOG_IDENTITY_STATE: DialogAnimationPhaseState = {
  * instead of `Animated.timing` (linear/eased duration curve).
  */
 export const DIALOG_SPRING_ANIMATIONS: ReadonlySet<string> = new Set(['bounce']);
+
+/** Scale a `genie`-animated dialog collapses to at its point of origin. */
+export const DIALOG_GENIE_COLLAPSED_SCALE = 0.05;
 
 export const dialogStyles = StyleSheet.create({
   backdrop: {
