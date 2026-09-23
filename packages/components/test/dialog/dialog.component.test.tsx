@@ -1,9 +1,14 @@
-import { describe, expect, it, vi } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { Text } from 'react-native';
+import { Animated, Text } from 'react-native';
 import { Dialog } from '../../src/dialog';
+import { DIALOG_HIDDEN_STATE } from '../../src/dialog/dialog.styles';
 
 describe('Dialog', () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   it('renders nothing when not visible', () => {
     render(
       <Dialog visible={false} testID="confirm-dialog">
@@ -104,5 +109,33 @@ describe('Dialog', () => {
     render(<Dialog visible testID="confirm-dialog" />);
     expect(screen.queryByTestId('confirm-dialog_header')).toBeNull();
     expect(screen.queryByTestId('confirm-dialog_footer')).toBeNull();
+  });
+
+  it('does not snap animated values back to the hidden pose when reopened before the close animation finishes', () => {
+    // Stub `Animated.parallel().start()` to never invoke its `finished`
+    // callback, standing in for a close animation that's still in flight —
+    // the mock `Animated.timing` this package's tests otherwise rely on
+    // resolves synchronously, which would leave no way to observe an
+    // in-progress close.
+    vi.spyOn(Animated, 'parallel').mockReturnValue({
+      start: () => undefined,
+      stop: () => undefined,
+      reset: () => undefined,
+    } as unknown as Animated.CompositeAnimation);
+
+    const { rerender } = render(<Dialog visible openAnimation="slide" closeAnimation="slide" testID="confirm-dialog" />);
+
+    rerender(<Dialog visible={false} openAnimation="slide" closeAnimation="slide" testID="confirm-dialog" />);
+    // The close animation never reports `finished` (per the stub above), so the
+    // dialog stays mounted — simulating a close that's still mid-flight.
+    expect(screen.getByTestId('confirm-dialog')).toBeTruthy();
+
+    const setValueSpy = vi.spyOn(Animated.Value.prototype, 'setValue');
+    rerender(<Dialog visible openAnimation="slide" closeAnimation="slide" testID="confirm-dialog" />);
+
+    // Reopening mid-close must not snap the values back to the hidden pose
+    // (translateY 320 for `slide`) — it should continue from wherever the
+    // values currently are instead of flickering to fully-hidden first.
+    expect(setValueSpy).not.toHaveBeenCalledWith(DIALOG_HIDDEN_STATE.slide.translateY);
   });
 });
