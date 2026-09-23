@@ -30,6 +30,7 @@ export const Dialog: React.FC<DialogProps> = ({
   const scale = useRef(new Animated.Value(hiddenStateOf(openAnimation).scale)).current;
   const backdropOpacity = useRef(new Animated.Value(0)).current;
   const isUnmounted = useRef(false);
+  const isClosing = useRef(false);
 
   useEffect(
     () => () => {
@@ -45,11 +46,18 @@ export const Dialog: React.FC<DialogProps> = ({
   useEffect(() => {
     if (visible) {
       setMounted(true);
-      const hidden = hiddenStateOf(openAnimation);
-      opacity.setValue(hidden.opacity);
-      translateY.setValue(hidden.translateY);
-      scale.setValue(hidden.scale);
-      backdropOpacity.setValue(0);
+      if (!isClosing.current) {
+        // Only snap to the hidden pose on a clean open (i.e. not reopening
+        // while the close animation is still in flight) — otherwise this
+        // would force a visible jump to fully-hidden before animating back
+        // in, instead of continuing smoothly from the current values.
+        const hidden = hiddenStateOf(openAnimation);
+        opacity.setValue(hidden.opacity);
+        translateY.setValue(hidden.translateY);
+        scale.setValue(hidden.scale);
+        backdropOpacity.setValue(0);
+      }
+      isClosing.current = false;
 
       Animated.parallel([
         Animated.timing(opacity, {
@@ -74,6 +82,7 @@ export const Dialog: React.FC<DialogProps> = ({
         }),
       ]).start();
     } else if (mounted) {
+      isClosing.current = true;
       const hidden = hiddenStateOf(closeAnimation);
 
       Animated.parallel([
@@ -87,6 +96,7 @@ export const Dialog: React.FC<DialogProps> = ({
         Animated.timing(backdropOpacity, { toValue: 0, duration: animationDuration, useNativeDriver: false }),
       ]).start(({ finished }) => {
         if (finished && !isUnmounted.current) {
+          isClosing.current = false;
           setMounted(false);
           onClosed?.();
         }
