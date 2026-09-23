@@ -2,3 +2,5 @@
 // Note: the groups each have a default export, so they cannot all be
 // re-exported as `default` — this barrel intentionally exports none.
 export * from './sample_button';
+export * from './dock_tabbar';
+export * from './dialog';

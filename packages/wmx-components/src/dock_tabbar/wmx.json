@@ -1,0 +1,46 @@
+{
+  "name": "dock_tabbar",
+  "displayName": "Dock Tabbar",
+  "description": "Floating 5-tab bottom navigation bar with an active-tab notch indicator, rendered by the @wavemaker/rn-components DockTabbar.",
+  "version": "0.0.0-dev.0",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wavemaker/wm-react-native-tabbar.git"
+  },
+  "keywords": ["wavemaker", "react-native", "tabbar", "navigation", "dock"],
+  "iconUrl": "icon.svg",
+  "webSupport": true,
+  "group": "navigation",
+  "dependencies": {
+    "@wavemaker/rn-components": "*",
+    "@wavemaker-ai/app-rn-runtime": "*"
+  },
+  "props": [
+    { "name": "activeindex", "displayName": "Active Index", "type": "number", "defaultValue": 0 },
+    { "name": "dotcolor", "displayName": "Notch Dot Color", "type": "string" },
+    { "name": "disabled", "displayName": "Disabled", "type": "boolean", "defaultValue": false },
+    { "name": "accessibilitylabel", "displayName": "Accessibility Label", "type": "string" },
+    { "name": "item1iconclass", "displayName": "Tab 1 Icon Class", "type": "string" },
+    { "name": "item1iconurl", "displayName": "Tab 1 Icon URL", "type": "string" },
+    { "name": "item1label", "displayName": "Tab 1 Label", "type": "string" },
+    { "name": "item2iconclass", "displayName": "Tab 2 Icon Class", "type": "string" },
+    { "name": "item2iconurl", "displayName": "Tab 2 Icon URL", "type": "string" },
+    { "name": "item2label", "displayName": "Tab 2 Label", "type": "string" },
+    { "name": "item3iconclass", "displayName": "Tab 3 Icon Class", "type": "string" },
+    { "name": "item3iconurl", "displayName": "Tab 3 Icon URL", "type": "string" },
+    { "name": "item3label", "displayName": "Tab 3 Label", "type": "string" },
+    { "name": "item4iconclass", "displayName": "Tab 4 Icon Class", "type": "string" },
+    { "name": "item4iconurl", "displayName": "Tab 4 Icon URL", "type": "string" },
+    { "name": "item4label", "displayName": "Tab 4 Label", "type": "string" },
+    { "name": "item5iconclass", "displayName": "Tab 5 Icon Class", "type": "string" },
+    { "name": "item5iconurl", "displayName": "Tab 5 Icon URL", "type": "string" },
+    { "name": "item5label", "displayName": "Tab 5 Label", "type": "string" }
+  ],
+  "events": [
+    { "name": "onChange", "displayName": "On Change", "description": "Fired with the new active index when a tab is tapped." },
+    { "name": "onItemLongPress", "displayName": "On Item Long Press", "description": "Fired with the tab's index when it is long-pressed." },
+    { "name": "onTap", "displayName": "On Tap", "description": "Fired on any tap on the widget." }
+  ],
+  "styles": ["root", "barSurface", "tabItem", "iconGlyph", "label", "notchIndicator"]
+}
